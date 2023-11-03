@@ -1,35 +1,34 @@
-debug: false
-management.endpoints.web.exposure.include: "*"
-
 logging:
   level:
-    com.boardp.boardproject : debug
-    org.springframework.web.servlet : debug
-    org.hibernate.type.descriptor.sql : trace
-
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+server:
+  servlet:
+    encoding:
+      force: true
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url : jdbc:mysql://localhost:3306/board?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username:
-    password:
-
+    password: mohang
+    url: jdbc:mysql://localhost:3306/mohang?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: mohang
+  h2:
+    console:
+      enabled: true
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create
-      show-sql: true
+      ddl-auto: validate
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
+        dialect.storage_engine: innodb
         format_sql: true
-        default_batch_fetch_size: 100
-    database: MYSQL
-  h2:
-    console:
-      enabled: false
-  sql:
-    init:
-      mode: always
-  data.rest:
-    base-path: /api
-    detection-strategy: annotated
+        show_sql: true
+  session:
+    store-type: jdbc
