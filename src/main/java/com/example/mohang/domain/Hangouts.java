@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -24,7 +25,7 @@ import java.util.Objects;
         @Index(columnList = "createdBy")
 })
 @EntityListeners(AuditingEntityListener.class)
-public class Mohang {
+public class Hangouts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,25 +43,25 @@ public class Mohang {
     private String hashtag;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @Column(nullable = false , updatable = false)
+    @Column(nullable = true , updatable = false)
     private LocalDateTime meetDate;
 
-    protected Mohang(){}
+    protected Hangouts(){}
 
-    private Mohang(String title, String content, String hashtag){
+    private Hangouts(String title, String content, String hashtag){
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
     }
 
-    public static Mohang of(String title, String content, String hashtag) {
-        return new Mohang(title, content, hashtag);
+    public static Hangouts of(String title, String content, String hashtag ) {
+        return new Hangouts(title, content, hashtag);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Mohang mohang)) return false;
+        if (!(o instanceof Hangouts mohang)) return false;
         return Objects.equals(id, mohang.id) && Objects.equals(title, mohang.title) && Objects.equals(content, mohang.content) && Objects.equals(hashtag, mohang.hashtag) && Objects.equals(meetDate, mohang.meetDate) && Objects.equals(createdAt, mohang.createdAt) && Objects.equals(createdBy, mohang.createdBy) && Objects.equals(modifiedAt, mohang.modifiedAt) && Objects.equals(modifiedBy, mohang.modifiedBy);
     }
 
