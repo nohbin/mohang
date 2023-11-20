@@ -36,3 +36,6 @@ spring:
   sql:
     init:
       mode: always
+  data.rest:
+    base-path: /hangapi
+    detection-strategy: annotated
