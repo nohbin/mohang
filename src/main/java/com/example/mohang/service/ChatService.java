@@ -14,6 +14,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+
 public class ChatService {
     @Autowired
     private HangOutRepository hangOutRepository;
