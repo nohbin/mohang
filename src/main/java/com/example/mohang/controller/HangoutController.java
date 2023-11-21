@@ -6,6 +6,9 @@ import com.example.mohang.service.HangoutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +24,10 @@ import java.util.List;
 public class HangoutController {
     @Autowired private HangoutService service;
     @GetMapping
-    public String hangout(Model model, @RequestParam(value="page", defaultValue="0") int page) {
-        Page<Hangout> paging = service.getList(page);
+    public String hangout(Model model,
+                          @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                          @RequestParam(value="page", defaultValue="0") int page) {
+        Page<Hangout> paging = service.getList(pageable);
         model.addAttribute("paging", paging);
         return "/hangout/hangouts";
     }
@@ -32,4 +37,17 @@ public class HangoutController {
         model.addAttribute("hangout", hangout);
         return "/hangout/hangout";
     }
+    @GetMapping("/search")
+    public String search(Model model,
+                         @RequestParam("cate") String cate,
+                         @RequestParam("keyword") String keyword,
+                         @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                         @RequestParam(value="page", defaultValue="0") int page) {
+        Page<Hangout> paging = service.search(cate, keyword, pageable);
+        model.addAttribute("paging", paging);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("cate", cate);
+        return "/hangout/hangouts";
+    }
+
 }

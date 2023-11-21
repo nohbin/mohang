@@ -15,12 +15,22 @@ public class HangoutService {
     @Autowired
     HangoutRepository hangoutRepository;
 
-    public Page<Hangout> getList(int page) {
-        Pageable pageable = PageRequest.of(page, 10);
+    public Page<Hangout> getList(Pageable pageable) {
         return this.hangoutRepository.findAll(pageable);
     }
     public Hangout getHangout(Long id) {
         Hangout hangout = hangoutRepository.findById(id).orElse(null);
         return hangout;
+    }
+    public Page<Hangout> search(String cate, String keyword, Pageable pageable) {
+        if(cate.equals("title")) {
+            return hangoutRepository.findByTitleContaining(keyword, pageable);
+        } else if(cate.equals("content")) {
+            return hangoutRepository.findByContentContaining(keyword, pageable);
+        } else if(cate.equals("createdBy")) {
+            return hangoutRepository.findByCreatedByContaining(keyword, pageable);
+        } else {
+            return null;
+        }
     }
 }

@@ -32,5 +32,9 @@ public interface HangoutRepository extends
         }
 
         Page<Hangout> findAll(Pageable pageable);
+        Page<Hangout> findByTitleContaining(String keyword, Pageable pageable);
+        Page<Hangout> findByContentContaining(String keyword, Pageable pageable);
+        Page<Hangout> findByCreatedByContaining(String keyword, Pageable pageable);
+
 
 }
