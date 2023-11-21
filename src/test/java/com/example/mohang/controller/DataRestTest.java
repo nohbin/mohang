@@ -33,7 +33,7 @@ public class DataRestTest {
     @Test
     void given_whenRequestingHangouts_thenReturnsHangoutJson() throws Exception {
 
-        mvc.perform(get("/hangapi/hangoutses"))
+        mvc.perform(get("/hangapi/hangouts"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.valueOf("application/hal+json;charset=UTF-8")));
     }
@@ -42,9 +42,11 @@ public class DataRestTest {
     @Test
     void given_whenRequestingHangout_thenReturnsHangoutJson() throws Exception {
 
-        mvc.perform(get("/hangapi/hangoutses/1"))
+        mvc.perform(get("/hangapi/hangouts/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.valueOf("application/hal+json;charset=UTF-8")));
     }
+
+
 
 }
