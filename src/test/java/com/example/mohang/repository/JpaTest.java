@@ -1,7 +1,7 @@
 package com.example.mohang.repository;
 
 import com.example.mohang.config.JpaConfig;
-import com.example.mohang.domain.Hangouts;
+import com.example.mohang.domain.Hangout;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -21,17 +20,17 @@ import static org.assertj.core.api.Assertions.*;
 public class JpaTest {
 
 
-    private HangoutsRepository hangoutsRepository;
+    private HangoutRepository hangoutRepository;
 
 
-    public JpaTest(@Autowired HangoutsRepository hangoutsRepository) {
-        this.hangoutsRepository = hangoutsRepository;
+    public JpaTest(@Autowired HangoutRepository hangoutsRepository) {
+        this.hangoutRepository = hangoutsRepository;
     }
 
     @DisplayName("Select Test")
     @Test
     void givenTestDate_whenSelecting_thenWorksFine(){
-        List<Hangouts> hangs = hangoutsRepository.findAll();
+        List<Hangout> hangs = hangoutRepository.findAll();
         assertThat(hangs)
                 .isNotNull()
                 .hasSize(100);
@@ -41,14 +40,14 @@ public class JpaTest {
     @Test
     void givenTestDate_whenInserting_thenWorksFine(){
         // Given
-        Long previousCount = hangoutsRepository.count();
-        Hangouts hangouts = Hangouts.of("new title", "new content", "new hasgtag");
+        Long previousCount = hangoutRepository.count();
+        Hangout hangout = Hangout.of("new title", "new content", "new hasgtag");
         // When
-        Hangouts savedArticle = hangoutsRepository.save(hangouts);
-        List<Hangouts> articles = hangoutsRepository.findAll();
+        Hangout savedArticle = hangoutRepository.save(hangout);
+        List<Hangout> articles = hangoutRepository.findAll();
 
         // then
-        assertThat(hangoutsRepository.count()).isEqualTo(previousCount + 1);
+        assertThat(hangoutRepository.count()).isEqualTo(previousCount + 1);
 
     }
 
@@ -56,18 +55,18 @@ public class JpaTest {
     @Test
     void givenTestDate_whenUpdating_thenWorksFine(){
         // Given
-        Hangouts hangouts = Hangouts.of("new title", "new content", "new hasgtag");
-        hangoutsRepository.save(hangouts);
-        hangoutsRepository.findById(1L).orElseThrow();
+        Hangout hangout = Hangout.of("new title", "new content", "new hasgtag");
+        hangoutRepository.save(hangout);
+        hangoutRepository.findById(1L).orElseThrow();
         String updatingHashtag = "#Springboot";
-        hangouts.setHashtag(updatingHashtag);
+        hangout.setHashtag(updatingHashtag);
 
         // When
 //        Article article = Article.of("new article", "new content", "#Spring");
-        Hangouts savedHangs = hangoutsRepository.saveAndFlush(hangouts);
+        Hangout savedHang = hangoutRepository.saveAndFlush(hangout);
 
         // then
-        assertThat(savedHangs).hasFieldOrPropertyWithValue("hashtag",updatingHashtag);
+        assertThat(savedHang).hasFieldOrPropertyWithValue("hashtag",updatingHashtag);
 
     }
 
@@ -75,20 +74,20 @@ public class JpaTest {
     @Test
     void givenTestDate_whenDeleting_thenWorksFine(){
         // Given
-        Hangouts hangouts = Hangouts.of("new article", "new content", "#Spring");
-        hangoutsRepository.save(hangouts);
-        hangoutsRepository.findById(1L).orElseThrow();
-        long previousArticleCount = hangoutsRepository.count();
-        long previousArticleCommentCount = hangoutsRepository.count();
+        Hangout hangout = Hangout.of("new article", "new content", "#Spring");
+        hangoutRepository.save(hangout);
+        hangoutRepository.findById(1L).orElseThrow();
+        long previousArticleCount = hangoutRepository.count();
+        long previousArticleCommentCount = hangoutRepository.count();
 
 
 
         // When
 //      Article article = Article.of("new article", "new content", "#Spring");
-        hangoutsRepository.delete(hangouts);
+        hangoutRepository.delete(hangout);
 
         // then
-        assertThat(hangoutsRepository.count()).isEqualTo(previousArticleCount - 1);
+        assertThat(hangoutRepository.count()).isEqualTo(previousArticleCount - 1);
     }
 
 }

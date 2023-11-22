@@ -2,9 +2,8 @@ package com.example.mohang.service;
 
 import com.example.mohang.dto.ChatMessage;
 import com.example.mohang.entity.Chat;
-import com.example.mohang.entity.HangOut;
 import com.example.mohang.repository.ChatRepository;
-import com.example.mohang.repository.HangOutRepository;
+//import com.example.mohang.repository.HangOutRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +15,14 @@ import java.util.List;
 @Slf4j
 
 public class ChatService {
-    @Autowired
-    private HangOutRepository hangOutRepository;
+//    @Autowired
+//    private HangOutRepository hangOutRepository;
     @Autowired
     private ChatRepository chatRepository;
     public Chat insertChat(ChatMessage dto) {
-        HangOut hangout = hangOutRepository.findById(dto.getHang_id()).orElse(null);
-        Chat chat = Chat.createChat(dto, hangout);
-        return chatRepository.save(chat);
+//        HangOut hangout = hangOutRepository.findById(dto.getHang_id()).orElse(null);
+//        Chat chat = Chat.createChat(dto, hangout);
+        return null; //chatRepository.save(chat);
     }
 
     public List<ChatMessage> selectAllChat() {
