@@ -1,6 +1,8 @@
 package com.example.mohang.domain;
 
+import com.example.mohang.dto.HangoutDto;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -86,5 +88,15 @@ public class Hangout {
     @LastModifiedBy
     @Column(nullable = false,length = 100)
     private String modifiedBy;
+
+    // 임시 생성자
+
+    public Hangout(HangoutDto dto) {
+        this.title = dto.title();
+        this.content = dto.content();
+        this.hashtag = dto.hashtag();
+        this.createdBy = dto.createdBy();
+        this.meetDate = dto.meetDate();
+    }
 
 }
