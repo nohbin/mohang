@@ -1,7 +1,6 @@
 package com.example.mohang.controller;
 
 import com.example.mohang.domain.Hangout;
-import com.example.mohang.repository.HangoutRepository;
 import com.example.mohang.service.HangoutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
