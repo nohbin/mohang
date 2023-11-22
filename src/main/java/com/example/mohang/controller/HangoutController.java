@@ -48,10 +48,15 @@ public class HangoutController {
         return "/hangout/hangouts";
     }
 
+    @GetMapping("/write/form")
+    public String writeForm() {
+        return "/hangout/write";
+    }
     @PostMapping
     public String write(Model model, HangoutDto dto) {
         Hangout written = service.write(dto);
         model.addAttribute("hangout", written);
         return "/hangout/hangout";
     }
+
 }

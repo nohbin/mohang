@@ -98,10 +98,10 @@ insert into hangout (title, content, hashtag, meet_date, created_By, modified_By
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Donec posuere metus vitae ipsum.', 'Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', null, '2023-01-12 13:06:06', 'Norri', 'Keir', '2023-06-07 19:19:58', '2023-05-11 04:01:30');
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Nunc purus.', 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci.', 'Teal', '2023-09-03 07:29:26', 'Rosana', 'Bradly', '2023-08-08 14:29:51', '2023-05-11 09:13:29');
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.', 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla.', null, '2023-06-21 03:38:38', 'Bald', 'Karl', '2022-12-10 02:35:48', '2023-07-25 05:00:50');
-=======
+-------------------
 
 -- 테스트 계정
 -- TODO: 테스트용이지만 비밀번호가 노출된 데이터 세팅. 개선하는 것이 좋을 지 고민해 보자.
-insert into user_account (user_id, user_password, email, created_at, created_by, modified_at, modified_by) values
+/*insert into user_account (user_id, user_password, email, created_at, created_by, modified_at, modified_by) values
     ('nohbin', '1234', 'uno@mail.com', now(), 'nohbin', now(), 'nohbin');
-
+*/
