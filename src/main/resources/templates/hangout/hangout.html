@@ -8,26 +8,35 @@
           crossorigin="anonymous">
 </head>
 <body>
-<div class="container">
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">글번호</th>
-            <th scope="col">제목</th>
-            <th scope="col">글쓴이</th>
-        </tr>
-        </thead>
-        <tbody>
+<div class="container m-4" >
 
-        <tr th:each="hangout : ${hangoutList}">
-            <td th:text="${hangout.id}"></td>
-            <td><a th:href="@{/hangout/{id}(id=${hangout.id})}" th:text="${hangout.title}"/></td>
-            <td th:text="${hangout.writer}"></td>
-        </tr>
+    <div class="col-md-10 m-4" >
+        <div class="m-2">
+            <label for="title">제목</label>
+            <input type="text" class="form-control" id="title" readonly th:value="${hangout.title}">
+        </div>
+        <div class="m-2">
+            <label for="createdBy">작성자</label>
+            <input type="text" class="form-control" id="createdBy" readonly th:value="${hangout.createdBy}">
+        </div>
+        <div class="m-2">
+            <label for="createdAt">작성일</label>
+            <input type="text" class="form-control" id="createdAt" readonly th:value="${hangout.createdAt}">
+        </div>
+        <div class="m-2">
+            <label for="content">내용</label>
+            <textarea class="form-control" id="content" readonly th:text="${hangout.content}" rows="10"></textarea>
+        </div>
+        <div class="m-2">
+            <label for="meetDate">모임일시</label>
+            <input type="text" class="form-control" id="meetDate" readonly th:value="${hangout.meetDate}">
+        </div>
+        <br>
+        <a class="btn btn-outline-dark" th:href="@{/hangout}">목록보기</a>
+        <a class="btn btn-outline-info" th:href="@{'/hangout/'+${hangout.id}+'/chatting'}" th:onclick="window.open(this.href, '_blank', 'width=850, height=1000'); return false;" ref="noreferrer noopener">채팅하기</a>
 
-        </tbody>
-    </table>
-    <a href="">글쓰기</a>
+    </div>
+
 </div>
 </body>
 <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js}"

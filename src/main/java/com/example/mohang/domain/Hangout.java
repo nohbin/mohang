@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -25,7 +24,7 @@ import java.util.Objects;
         @Index(columnList = "createdBy")
 })
 @EntityListeners(AuditingEntityListener.class)
-public class Hangouts {
+public class Hangout {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,22 +45,22 @@ public class Hangouts {
     @Column(nullable = true , updatable = false)
     private LocalDateTime meetDate;
 
-    protected Hangouts(){}
+    protected Hangout(){}
 
-    private Hangouts(String title, String content, String hashtag){
+    private Hangout(String title, String content, String hashtag){
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
     }
 
-    public static Hangouts of(String title, String content, String hashtag ) {
-        return new Hangouts(title, content, hashtag);
+    public static Hangout of(String title, String content, String hashtag ) {
+        return new Hangout(title, content, hashtag);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Hangouts mohang)) return false;
+        if (!(o instanceof Hangout mohang)) return false;
         return Objects.equals(id, mohang.id) && Objects.equals(title, mohang.title) && Objects.equals(content, mohang.content) && Objects.equals(hashtag, mohang.hashtag) && Objects.equals(meetDate, mohang.meetDate) && Objects.equals(createdAt, mohang.createdAt) && Objects.equals(createdBy, mohang.createdBy) && Objects.equals(modifiedAt, mohang.modifiedAt) && Objects.equals(modifiedBy, mohang.modifiedBy);
     }
 

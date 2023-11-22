@@ -23,18 +23,6 @@ public class ChatApiController {
         return ResponseEntity.status(HttpStatus.OK).body(insertedChat);
     }
 
-//    @GetMapping("/hangout/chatting")
-//    public ResponseEntity<List<ChatMessage>> selectAllChat() {
-//        List<ChatMessage> chatList = chatService.selectAllChat();
-//        return ResponseEntity.status(HttpStatus.OK).body(chatList);
-//    }
-
-//    @GetMapping("/hangout/chat/{sender}")
-//    public ResponseEntity<List<ChatMessage>> selectChatBySender(@PathVariable String sender) {
-//        List<ChatMessage> chatList = chatService.selectChatBySender(sender);
-//        return ResponseEntity.status(HttpStatus.OK).body(chatList);
-//    }
-
     @GetMapping("/hangout/{hang_id}/chatting")
     public ResponseEntity<List<ChatMessage>> selectChatByHangId(@PathVariable Long hang_id) {
         List<ChatMessage> chatList = chatService.selectChatByHangId(hang_id);

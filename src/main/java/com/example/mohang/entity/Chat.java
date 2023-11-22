@@ -1,5 +1,6 @@
 package com.example.mohang.entity;
 
+import com.example.mohang.domain.Hangout;
 import com.example.mohang.dto.ChatMessage;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,12 +29,12 @@ public class Chat {
     private String sender;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hang_id")
-    private HangOut hangout;
+    private Hangout hangout;
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime time;
 
-    public static Chat createChat(ChatMessage dto, HangOut hangout) {
+    public static Chat createChat(ChatMessage dto, Hangout hangout) {
         // 예외 처리
         if (hangout.getId() == null)
             throw new IllegalArgumentException("채팅 전송 실패! 게시글의 id가 있어야 합니다.");
