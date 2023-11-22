@@ -89,24 +89,26 @@
             <a class="btn btn-outline-info" th:href="@{'/hangout/'+${hangout.id}+'/chatting'}" th:onclick="window.open(this.href, '_blank', 'width=850, height=1000'); return false;" ref="noreferrer noopener">채팅하기</a>
 -->
         </form>
-    </div>
-    <div class="map_wrap">
-        <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
-        <div id="menu_wrap" class="bg_white">
-            <div class="option">
-                <div>
-                    <form onsubmit="searchPlaces(); return false;">
-                        키워드 : <input type="text" value="중앙역 삼겹살" id="keyword" size="15">
-                        <button type="submit" id="placeSearch">검색하기</button>
-                    </form>
+        <div class="map_wrap">
+            <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+
+            <div id="menu_wrap" class="bg_white">
+                <div class="option">
+                    <div>
+                        <form onsubmit="searchPlaces(); return false;">
+                            키워드 : <input type="text" value="중앙역 삼겹살" id="keyword" size="15">
+                            <button type="submit" id="placeSearch">검색하기</button>
+                        </form>
+                    </div>
                 </div>
+                <hr>
+                <ul id="placesList"></ul>
+                <div id="pagination"></div>
             </div>
-            <hr>
-            <ul id="placesList"></ul>
-            <div id="pagination"></div>
         </div>
     </div>
+
 
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8d98f73a557881a5b34939183b8131b8&libraries=services"></script>
     <script>
@@ -335,6 +337,7 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
 <script type="text/javascript" th:src="@{/js/jquery.datetimepicker.full.min.js}"></script>
+
 <!-- 데이트피커 -->
 <script>
     $('#meetDate').datetimepicker({
@@ -349,6 +352,7 @@
     });
     jQuery.datetimepicker.setLocale('kr');
 </script>
+
 <!-- 장소 목록 클릭 시 인풋태그 자동완성 시키기 -->
 <script>
     function asyncFunction(divInfo) {

@@ -47,6 +47,10 @@ public class Hangout {
     @Column(nullable = true , updatable = false)
     private LocalDateTime meetDate;
 
+    @Column
+    private String place;
+    @Column
+    private String address;
     protected Hangout(){}
 
     private Hangout(String title, String content, String hashtag){
@@ -97,6 +101,8 @@ public class Hangout {
         this.hashtag = dto.hashtag();
         this.createdBy = dto.createdBy();
         this.meetDate = dto.meetDate();
+        this.place = dto.place();
+        this.address = dto.address();
     }
 
 }

@@ -16,6 +16,8 @@ public record HangoutDto(
         String content,
         String hashtag,
         LocalDateTime meetDate,
+        String place,
+        String address,
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
