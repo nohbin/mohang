@@ -3,6 +3,7 @@ package com.example.mohang.controller;
 import com.example.mohang.domain.Hangout;
 
 import com.example.mohang.dto.HangoutDto;
+import com.example.mohang.entity.HangoutWith;
 import com.example.mohang.repository.HangoutRepository;
 
 import com.example.mohang.service.HangoutService;
