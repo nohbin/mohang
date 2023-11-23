@@ -1,3 +1,4 @@
+
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Aenean fermentum.', 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.', 'Crimson', '2023-08-19 20:19:50', 'Sophi', 'Anneliese', '2022-12-15 07:18:20', '2023-04-02 00:07:09');
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Curabitur gravida nisi at nibh.', 'Aenean auctor gravida sem.', 'Turquoise', '2023-08-05 13:44:42', 'Ted', 'Isabel', '2023-01-11 16:46:38', '2023-07-20 22:06:45');
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Nam nulla.', 'Pellentesque at nulla.', null, '2023-05-13 03:47:27', 'Abelard', 'Ferdinande', '2023-11-02 13:03:21', '2023-01-23 22:33:18');
