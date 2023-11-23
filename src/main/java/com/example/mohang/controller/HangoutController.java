@@ -1,6 +1,10 @@
 package com.example.mohang.controller;
 
 import com.example.mohang.domain.Hangout;
+
+import com.example.mohang.dto.HangoutDto;
+import com.example.mohang.repository.HangoutRepository;
+
 import com.example.mohang.service.HangoutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,6 +48,17 @@ public class HangoutController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("cate", cate);
         return "/hangout/hangouts";
+    }
+
+    @GetMapping("/write/form")
+    public String writeForm() {
+        return "/hangout/write";
+    }
+    @PostMapping
+    public String write(Model model, HangoutDto dto) {
+        Hangout written = service.write(dto);
+        model.addAttribute("hangout", written);
+        return "/hangout/hangout";
     }
 
 }
