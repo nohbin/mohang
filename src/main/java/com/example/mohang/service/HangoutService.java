@@ -44,7 +44,7 @@ public class HangoutService {
         Hangout hangout = new Hangout(dto);
         Hangout written = hangoutRepository.save(hangout);
         String writer = written.getCreatedBy();
-        HangoutWith hangwith = new HangoutWith(hangout, writer, 1);
+        HangoutWith hangwith = new HangoutWith(written, writer, 1);
         hangoutWithRepository.save(hangwith);
         return written;
     }
