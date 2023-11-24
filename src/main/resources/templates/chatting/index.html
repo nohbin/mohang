@@ -41,7 +41,7 @@
             <li th:if="${chatList}" th:each="chat : ${chatList}" class="chat-message">
                 <i style="background-color: rgb(255, 133, 175);" th:text="${chat.getSender().substring(0,1)}"></i>
                 <span class="sender" th:text="${chat.getSender()}"></span>
-                <span class="send_time" th:text="'  '+${chat.getTime().substring(0,10)}+' '+${chat.getTime().substring(11,19)}"></span>
+<!--                <span class="send_time" th:text="'  '+${chat.getTime().substring(0,10)}+' '+${chat.getTime().substring(11,19)}"></span>-->
                 <p th:text="${chat.getContent()}"></p>
             </li>
         </ul>
