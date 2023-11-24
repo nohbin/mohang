@@ -7,10 +7,13 @@ import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import java.util.List;
 
 @RepositoryRestResource
 public interface HangoutRepository extends
@@ -35,6 +38,10 @@ public interface HangoutRepository extends
         Page<Hangout> findByTitleContaining(String keyword, Pageable pageable);
         Page<Hangout> findByContentContaining(String keyword, Pageable pageable);
         Page<Hangout> findByCreatedByContaining(String keyword, Pageable pageable);
+
+        @Query(value="select distinct hashtag from hangout", nativeQuery = true)
+        List<String> findAllHashtag();
+        Page<Hangout> findByHashtag(String hashtag, Pageable pageable);
 
 
 }

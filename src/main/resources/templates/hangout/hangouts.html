@@ -81,9 +81,14 @@
             </form>
         </div>
         <div class="container-fluid">
-            <button type="button" class="btn btn-warning m-1" onclick="location.href='/hangout/write/form'">모임만들기</button>
+            <button type="button" class="btn btn-warning m-1 w-100" onclick="location.href='/hangout/write/form'">모임만들기</button>
         </div>
-
+        <div class="container-fluid">
+            <h4 class="text-white m-1">Hashtag</h4>
+            <ul th:each="hashtag : ${hashtagList}" class="m-1 sidebar-nav">
+                <li><a th:if="${hashtag != null}" th:href="'/hangout/hashtag/'+${hashtag}" th:text="'#'+${hashtag}"></a></li>
+            </ul>
+        </div>
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
                 <a href="#" class="text-white">Category</a>
@@ -94,14 +99,15 @@
             <li><a href="#">메뉴 4</a></li>
             <li><a href="#">메뉴 5</a></li>
         </ul>
+
     </div>
     <!-- /사이드바 -->
 
     <!-- 본문 -->
     <div id="page-content-wrapper">
         <div class="container-fluid">
-            <h1>Mohang?asdfsrerfxdfvdszfx</h1>
-            <p>모여서 hangout!</p>
+            <h1>Mohang?</h1>
+            <p>모여서 Hang Out!</p>
             <table class="table">
                 <thead>
                 <tr>

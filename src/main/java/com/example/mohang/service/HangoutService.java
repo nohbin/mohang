@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class HangoutService {
@@ -51,5 +53,13 @@ public class HangoutService {
 
     public void participate() {
 
+    }
+
+    public List<String> getHashtagList() {
+        return hangoutRepository.findAllHashtag();
+    }
+
+    public Page<Hangout> getByHashtag(String hashtag, Pageable pageable) {
+        return hangoutRepository.findByHashtag(hashtag, pageable);
     }
 }

@@ -7,6 +7,7 @@ import com.example.mohang.entity.HangoutWith;
 import com.example.mohang.repository.HangoutRepository;
 
 import com.example.mohang.service.HangoutService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,11 +25,15 @@ import java.util.List;
 @Controller
 public class HangoutController {
     @Autowired private HangoutService service;
+    @Transactional
     @GetMapping
     public String hangout(Model model,
                           @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                           @RequestParam(value="page", defaultValue="0") int page) {
         Page<Hangout> paging = service.getList(pageable);
+        List<String> hashtagList = service.getHashtagList();
+        log.info(hashtagList.toString());
+        model.addAttribute("hashtagList", hashtagList);
         model.addAttribute("paging", paging);
         return "/hangout/hangouts";
     }
@@ -60,6 +65,14 @@ public class HangoutController {
         Hangout written = service.write(dto);
         model.addAttribute("hangout", written);
         return "/hangout/hangout";
+    }
+    @GetMapping("/hashtag/{hashtag}")
+    public String getByHashtag(Model model, @PathVariable("hashtag") String hashtag,
+        @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Hangout> paging = service.getByHashtag(hashtag, pageable);
+        model.addAttribute("paging", paging);
+        model.addAttribute("hashtag", hashtag);
+        return "/hangout/hangouts";
     }
 
 }
