@@ -75,4 +75,9 @@ public class HangoutController {
         return "/hangout/hangouts";
     }
 
+    @GetMapping("/kakao")
+    public String loginexample(){
+        return "/hangout/kakaologin";
+    }
+
 }

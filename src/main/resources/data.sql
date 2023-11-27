@@ -1,8 +1,8 @@
 
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Aenean fermentum.', 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.', 'Crimson', '2023-08-19 20:19:50', 'Sophi', 'Anneliese', '2022-12-15 07:18:20', '2023-04-02 00:07:09');
-insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Curabitur gravida nisi at nibh.', 'Aenean auctor gravida sem.', 'Turquoise', '2023-08-05 13:44:42', 'Ted', 'Isabel', '2023-01-11 16:46:38', '2023-07-20 22:06:45');
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Nam nulla.', 'Pellentesque at nulla.', 'Yellow', '2023-05-13 03:47:27', 'Abelard', 'Ferdinande', '2023-11-02 13:03:21', '2023-01-23 22:33:18');
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Proin interdum mauris non ligula pellentesque ultrices.', 'In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Fuscia', '2023-07-09 21:32:04', 'Consuelo', 'Brandi', '2023-08-24 16:37:19', '2023-07-08 19:31:49');
+insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Curabitur gravida nisi at nibh.', 'Aenean auctor gravida sem.', 'Turquoise', '2023-08-05 13:44:42', 'Ted', 'Isabel', '2023-01-11 16:46:38', '2023-07-20 22:06:45');
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.', 'Sed vel enim sit amet nunc viverra dapibus. Nulla suscipit ligula in lacus.', 'Maroon', '2023-02-23 07:23:43', 'Konstantine', 'Konrad', '2023-07-24 10:13:45', '2022-11-30 08:34:09');
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante.', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Crimson', '2023-10-26 06:44:20', 'Leslie', 'Jodie', '2023-04-08 16:53:06', '2023-01-21 17:20:28');
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Nulla mollis molestie lorem. Quisque ut erat.', 'Yellow', '2022-11-21 11:16:10', 'Glynnis', 'Koenraad', '2023-08-17 01:57:39', '2023-08-08 08:22:18');
@@ -99,10 +99,13 @@ insert into hangout (title, content, hashtag, meet_date, created_By, modified_By
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Donec posuere metus vitae ipsum.', 'Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 'Yellow', '2023-01-12 13:06:06', 'Norri', 'Keir', '2023-06-07 19:19:58', '2023-05-11 04:01:30');
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Nunc purus.', 'Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci.', 'Teal', '2023-09-03 07:29:26', 'Rosana', 'Bradly', '2023-08-08 14:29:51', '2023-05-11 09:13:29');
 insert into hangout (title, content, hashtag, meet_date, created_By, modified_By, created_At, modified_At) values ('Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.', 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla.', 'Yellow', '2023-06-21 03:38:38', 'Bald', 'Karl', '2022-12-10 02:35:48', '2023-07-25 05:00:50');
--------------------
+# -------------------
 
 -- 테스트 계정
 -- TODO: 테스트용이지만 비밀번호가 노출된 데이터 세팅. 개선하는 것이 좋을 지 고민해 보자.
 /*insert into user_account (user_id, user_password, email, created_at, created_by, modified_at, modified_by) values
     ('nohbin', '1234', 'uno@mail.com', now(), 'nohbin', now(), 'nohbin');
 */
+
+insert into user_account (user_id, user_password, email, nickname, created_at, created_by, modified_at, modified_by) values
+    ('nohbin', '{noop}1234', 'nohbin@email.com','nick', now(), 'nohbin', now(), 'nohbin');
