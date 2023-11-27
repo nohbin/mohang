@@ -1,9 +1,13 @@
 package com.example.mohang.config;
 
+import com.example.mohang.security.CustomPrincipal;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
@@ -14,8 +18,12 @@ public class JpaConfig {
     @Bean
     public AuditorAware<String> auditorAware(){
 
-        return ()-> Optional.of("nohbin"); // Todo : Spring Security 로 변경 예정
-
+        return ()-> Optional.of(SecurityContextHolder.getContext())
+                .map(SecurityContext::getAuthentication)
+                .filter(Authentication::isAuthenticated)
+                .map(Authentication::getPrincipal)
+                .map(CustomPrincipal.class::cast)
+                .map(CustomPrincipal::getUsername);
     }
 
 }
