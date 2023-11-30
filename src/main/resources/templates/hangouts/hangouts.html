@@ -120,7 +120,7 @@
 
                 <tr th:each="hangout : ${paging}">
                     <td th:text="${hangout.id}"></td>
-                    <td><a th:href="@{/hangout/{id}(id=${hangout.id})}" th:text="${hangout.title}"/></td>
+                    <td><a th:href="@{/templates/hangouts/{id}(id=${hangout.id})}" th:text="${hangout.title}"/></td>
                     <td th:text="${hangout.createdBy}"></td>
                 </tr>
 

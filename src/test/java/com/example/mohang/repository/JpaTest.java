@@ -1,6 +1,7 @@
 package com.example.mohang.repository;
 
 import com.example.mohang.domain.Hangout;
+import com.example.mohang.domain.UserAccount;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ public class JpaTest {
         List<Hangout> hangs = hangoutRepository.findAll();
         assertThat(hangs)
                 .isNotNull()
-                .hasSize(0);
+                .hasSize(100);
     }
 
     @DisplayName("Insert Test")
@@ -50,7 +51,8 @@ public class JpaTest {
     void givenTestDate_whenInserting_thenWorksFine(){
         // Given
         Long previousCount = hangoutRepository.count();
-        Hangout hangout = Hangout.of("new title", "new content", "new hasgtag");
+        UserAccount user = userAccountRepository.save(UserAccount.of("nohbin","1234","nickname","email",null));
+        Hangout hangout = Hangout.of(user, "new title", "new content","new hashtag",null,"new place","new address");
         // When
         Hangout savedArticle = hangoutRepository.save(hangout);
         List<Hangout> articles = hangoutRepository.findAll();
@@ -59,14 +61,11 @@ public class JpaTest {
         assertThat(hangoutRepository.count()).isEqualTo(previousCount + 1);
 
     }
-    @Disabled("게시글 더미 데이터 삭제 로 인한 실패")
     @DisplayName("update Test")
     @Test
     void givenTestDate_whenUpdating_thenWorksFine(){
         // Given
-        Hangout hangout = Hangout.of("new title", "new content", "new hashtag");
-        hangoutRepository.save(hangout);
-        hangoutRepository.findById(1L).orElseThrow();
+        Hangout hangout = hangoutRepository.findById(1L).orElseThrow();
         String updatingHashtag = "#Springboot";
         hangout.setHashtag(updatingHashtag);
 
@@ -82,16 +81,14 @@ public class JpaTest {
     @Test
     void givenTestDate_whenDeleting_thenWorksFine(){
         // Given
-        Hangout hangout = Hangout.of("new article", "new content", "#Spring");
+        Hangout hangout = hangoutRepository.findById(1L).orElseThrow();
         hangoutRepository.save(hangout);
         hangoutRepository.findById(1L).orElseThrow();
         long previousArticleCount = hangoutRepository.count();
-        long previousArticleCommentCount = hangoutRepository.count();
 
 
 
         // When
-//      Article article = Article.of("new article", "new content", "#Spring");
         hangoutRepository.delete(hangout);
 
         // then
