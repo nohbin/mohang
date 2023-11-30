@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 public record CustomPrincipal(
-        String userName,
+        String username,
         String password,
         String email,
         String nickname,
@@ -20,14 +20,14 @@ public record CustomPrincipal(
         Map<String, Object> oAuth2Attributes
 ) implements UserDetails, OAuth2User {
 
-    public static CustomPrincipal of(String userName, String password, String email, String nickname){
-        return CustomPrincipal.of(userName, password, email, nickname ,Map.of());
+    public static CustomPrincipal of(String username, String password, String email, String nickname){
+        return CustomPrincipal.of(username, password, email, nickname ,Map.of());
     }
 
-    public static CustomPrincipal of(String userName, String password, String email, String nickname, Map<String, Object> oAuth2Attributes){
+    public static CustomPrincipal of(String username, String password, String email, String nickname, Map<String, Object> oAuth2Attributes){
         Set<RoleType> roleTypes = Set.of(RoleType.USER);
         return new CustomPrincipal(
-                userName,
+                username,
                 password,
                 email,
                 nickname,
@@ -49,6 +49,15 @@ public record CustomPrincipal(
         );
     }
 
+    public UserAccountDto toDto(){
+        return UserAccountDto.of(
+                username,
+                password,
+                email,
+                nickname
+        );
+    }
+
 
 
 
@@ -64,7 +73,7 @@ public record CustomPrincipal(
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     @Override
@@ -96,7 +105,7 @@ public record CustomPrincipal(
 
     @Override
     public String getName() {
-        return userName;
+        return username;
     }
 
     public enum RoleType{

@@ -49,16 +49,16 @@
 <body>
 <div class="container m-4" >
 
-    <div class="col-md-10 m-4" >
-        <form action="/hangout" method="POST">
+    <div class="col-md-10 m-4" th:text="${formStatus} ? '게시글 ' + ${formStatus.description} : _">
+        <form action="/hangout" method="POST" th:action="${formStatus?.update} ? '/hangouts/' + ${hangout.id} + '/form' : '/hangouts/form'" th:method="post">
             <div class="m-2">
                 <label for="title">제목</label>
-                <input type="text" class="form-control" id="title" name="title">
+                <input type="text" class="form-control" id="title" name="title" th:value="${hangout?.title} ?: _">
             </div>
-            <div class="m-2">
-                <label for="createdBy">작성자 ****회원아이디 넣어야함**** </label>
-                <input type="text" class="form-control" id="createdBy" name="createdBy">
-            </div>
+<!--            <div class="m-2">-->
+<!--                <label for="createdBy">작성자 ****회원아이디 넣어야함**** </label>-->
+<!--                <input type="text" class="form-control" id="createdBy" name="createdBy">-->
+<!--            </div>-->
 <!--
             <div class="m-2">
                 <label for="createdAt">작성일</label>
@@ -67,24 +67,27 @@
 -->
             <div class="m-2">
                 <label for="content">내용</label>
-                <textarea class="form-control" rows="10" id="content" name="content"></textarea>
+                <textarea class="form-control" rows="10" id="content" name="content" th:value="${hangout?.content} ?: _"></textarea>
+            </div><div class="m-2">
+                <label for="hashtag">해쉬태그</label>
+                <textarea class="form-control" rows="10" id="hashtag" name="hashtag" th:value="${hangout?.hashtag} ?: _"></textarea>
             </div>
             <div class="m-2" id="datepic">
                 <label for="meetDate">모임일시</label>
-                <input type="text" class="form-control" id="meetDate" name="meetDate" readonly>
+                <input type="text" class="form-control" id="meetDate" name="meetDate" readonly th:value="${hangout?.meetDate} ?: _">
             </div>
             <div class="m-2">
                 <label for="place">장소명</label>
-                <input type="text" class="form-control" id="place" name="place">
+                <input type="text" class="form-control" id="place" name="place" th:value="${hangout?.place} ?: _">
             </div>
             <div class="m-2">
                 <label for="address">주소</label>
-                <input type="text" class="form-control" id="address" name="address">
+                <input type="text" class="form-control" id="address" name="address" th:value="${hangout?.address} ?: _">
             </div>
             <br>
-            <a class="btn btn-outline-dark" th:href="@{/hangout}">목록보기</a>
+            <a class="btn btn-outline-dark" th:href="@{/templates/hangouts}">목록보기</a>
             <input type="reset" value="다시작성" class="btn btn-warning">
-            <input type="submit" value="작성완료" class="btn btn-info">
+            <input type="submit" value="작성완료" class="btn btn-info" th:text="${formStatus?.description} ?: _">
 <!--
             <a class="btn btn-outline-info" th:href="@{'/hangout/'+${hangout.id}+'/chatting'}" th:onclick="window.open(this.href, '_blank', 'width=850, height=1000'); return false;" ref="noreferrer noopener">채팅하기</a>
 -->
@@ -98,7 +101,7 @@
                     <div>
                         <form onsubmit="searchPlaces(); return false;">
                             키워드 : <input type="text" value="중앙역 삼겹살" id="keyword" size="15">
-                            <button type="submit" id="placeSearch">검색하기</button>
+                            <button type="submit" id="placeSearch" >검색하기</button>
                         </form>
                     </div>
                 </div>

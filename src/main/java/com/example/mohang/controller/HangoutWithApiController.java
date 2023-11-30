@@ -1,6 +1,7 @@
 package com.example.mohang.controller;
 
 import com.example.mohang.domain.Hangout;
+import com.example.mohang.dto.HangoutDto;
 import com.example.mohang.dto.HangoutWithDto;
 import com.example.mohang.entity.HangoutWith;
 import com.example.mohang.repository.HangoutWithRepository;
@@ -12,15 +13,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/hangwith")
 @RestController
 public class HangoutWithApiController {
-    @Autowired
-    HangoutService hangoutService;
-    @Autowired
-    HangoutWithRepository hangoutWithRepository;
-    @PostMapping("/participate")
-    public ResponseEntity<HangoutWith> participate(@RequestBody HangoutWithDto dto) {
-        Hangout hangout = hangoutService.getHangout(dto.getHangId());
-        HangoutWith hangoutWith = new HangoutWith(hangout, dto.getUserId(), dto.getWriterOrNot());
-        return ResponseEntity.ok().body(hangoutWithRepository.save(hangoutWith));
-    }
+//    @Autowired
+//    HangoutService hangoutService;
+//    @Autowired
+//    HangoutWithRepository hangoutWithRepository;
+//    @PostMapping("/participate")
+//    public ResponseEntity<HangoutWith> participate(@RequestBody HangoutWithDto dto) {
+//        HangoutDto hangout = hangoutService.getHangout(dto.getHangId());
+//        HangoutWith hangoutWith = new HangoutWith(hangout, dto.getUserId(), dto.getWriterOrNot());
+//        return ResponseEntity.ok().body(hangoutWithRepository.save(hangoutWith));
+//    }
 
 }
