@@ -1,6 +1,7 @@
 package com.example.mohang.domain;
 
 import com.example.mohang.dto.HangoutDto;
+import com.example.mohang.dto.UserAccountDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -33,6 +36,11 @@ public class Hangout {
     private Long id;
 
     @Setter
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "userId")
+    private UserAccount userAccount;
+
+    @Setter
     @Column(nullable = false)
     private String title;
 
@@ -43,24 +51,37 @@ public class Hangout {
     @Setter
     private String hashtag;
 
+    @Setter
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(nullable = true , updatable = false)
     private LocalDateTime meetDate;
 
+    @ToString.Exclude
+    @OrderBy("createdAt DESC ")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hangout")
+    private final Set<Chat> chats = new LinkedHashSet<>();
+
+    @Setter
     @Column
     private String place;
+
+    @Setter
     @Column
     private String address;
     protected Hangout(){}
 
-    private Hangout(String title, String content, String hashtag){
+    private Hangout(UserAccount userAccount,String title, String content, String hashtag , LocalDateTime meetDate, String place, String address){
+        this.userAccount = userAccount;
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
+        this.meetDate = meetDate;
+        this.place = place;
+        this.address = address;
     }
 
-    public static Hangout of(String title, String content, String hashtag ) {
-        return new Hangout(title, content, hashtag);
+    public static Hangout of(UserAccount userAccount,String title, String content, String hashtag, LocalDateTime meetDate, String place, String address ) {
+        return new Hangout(userAccount,title, content, hashtag, meetDate, place, address);
     }
 
     @Override

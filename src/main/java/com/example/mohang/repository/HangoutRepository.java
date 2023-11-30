@@ -22,6 +22,18 @@ public interface HangoutRepository extends
         QuerydslBinderCustomizer<QHangout>
     {
 
+        Page<Hangout> findByTitleContaining(String keyword, Pageable pageable);
+        Page<Hangout> findByContentContaining(String keyword, Pageable pageable);
+        Page<Hangout> findByCreatedByContaining(String keyword, Pageable pageable);
+        Page<Hangout> findByUserAccount_UserIdContaining(String UserId, Pageable pageable);
+        Page<Hangout> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
+        Page<Hangout> findByHashtag(String hashtag, Pageable pageable);
+
+        void deleteByIdAndUserAccount_UserId(Long hangoutId, String userId);
+
+        @Query(value="select distinct hashtag from hangout", nativeQuery = true)
+        List<String> findAllHashtag();
+
         @Override
         default void customize(QuerydslBindings bindings, QHangout root){
             bindings.excludeUnlistedProperties(true);
@@ -31,17 +43,7 @@ public interface HangoutRepository extends
             bindings.bind(root.hashtag).first(StringExpression::containsIgnoreCase);
             bindings.bind(root.createdAt).first(DateTimeExpression::eq);
             bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
-
         }
-
-        Page<Hangout> findAll(Pageable pageable);
-        Page<Hangout> findByTitleContaining(String keyword, Pageable pageable);
-        Page<Hangout> findByContentContaining(String keyword, Pageable pageable);
-        Page<Hangout> findByCreatedByContaining(String keyword, Pageable pageable);
-
-        @Query(value="select distinct hashtag from hangout", nativeQuery = true)
-        List<String> findAllHashtag();
-        Page<Hangout> findByHashtag(String hashtag, Pageable pageable);
 
 
 }
