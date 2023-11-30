@@ -26,7 +26,7 @@
                     </select>
                 </div>
                 <div class="form-group d-flex m-1">
-                    <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2" name="searchValue" type="search" placeholder="Search" aria-label="Search" th:value="${param.searchValue}">
                     <button type="submit" class="btn btn-danger" >Search</button>
                 </div>
             </form>
@@ -84,15 +84,15 @@
                 <nav id="pagination" aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
                         <li class="page-item" th:class="${hangouts.number <= 0 ? ' disabled' : ''}">
-                            <a class="page-link" th:href="@{/articles(page=${hangouts.number - 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}" th:text="'Previous'"></a>
+                            <a class="page-link" th:href="@{/hangouts(page=${hangouts.number - 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}" th:text="'Previous'"></a>
                         </li>
 
                         <li class="page-item" th:each="pageNumber : ${paginationBarNumbers}" th:class="${pageNumber == hangouts.number ? 'page-item active' : 'page-item'}">
-                            <a class="page-link" th:href="@{/articles(page=${pageNumber}, searchType=${param.searchType}, searchValue=${param.searchValue})}" th:text="${pageNumber + 1}"></a>
+                            <a class="page-link" th:href="@{/hangouts(page=${pageNumber}, searchType=${param.searchType}, searchValue=${param.searchValue})}" th:text="${pageNumber + 1}"></a>
                         </li>
 
                         <li class="page-item" th:class="${hangouts.number >= hangouts.totalPages - 1 ? ' disabled' : ''}">
-                            <a class="page-link" th:href="@{/articles(page=${hangouts.number + 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}" th:text="'Next'"></a>
+                            <a class="page-link" th:href="@{/hangouts(page=${hangouts.number + 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}" th:text="'Next'"></a>
                         </li>
                     </ul>
                 </nav>
