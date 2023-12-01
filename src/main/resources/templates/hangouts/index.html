@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Hangout!!!</title>
@@ -14,6 +14,9 @@
     <!-- 사이드바 -->
     <div id="sidebar-wrapper">
         <div class="container-fluid ">
+            <a role="button" id="kakao-login" class="me-2" sec:authorize="!isAuthenticated()" th:href="@{/oauth2/authorization/kakao}">
+                <img alt="Kakao Login" src="/images/kakao_login_medium.png" >
+            </a>
             <form class="" role="search" th:action="@{/hangouts}" th:method="get">
                 <h4 class="text-white m-1">Search</h4>
                 <div class="form-group m-1">
@@ -32,7 +35,7 @@
             </form>
         </div>
         <div class="container-fluid">
-            <button type="button" class="btn btn-warning m-1 w-100" onclick="location.href='/hangout/write/form'">모임만들기</button>
+            <a role="button" type="button" class="btn btn-warning m-1 w-100" sec:authorize="isAuthenticated()" th:href="@{/hangouts/form}" >모임만들기</a>
         </div>
         <div class="container-fluid">
             <h4 class="text-white m-1">Hashtag</h4>

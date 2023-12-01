@@ -76,9 +76,13 @@ public class HangoutController {
 //    }
 
     @GetMapping("/{hangoutId}")
-    public String hangout(@PathVariable Long hangoutId, ModelMap map){
-        return null;
+    public String hangout(
+            @PathVariable Long hangoutId,
+            ModelMap map)
+    {
+        return "hangouts/hangout";
     }
+
     @GetMapping("/search")
     public String search(Model model,
                          @RequestParam("cate") String cate,
@@ -89,7 +93,7 @@ public class HangoutController {
         model.addAttribute("paging", paging);
         model.addAttribute("keyword", keyword);
         model.addAttribute("cate", cate);
-        return "/hangout/hangouts";
+        return "/hangouts/hangouts";
     }
 
     @GetMapping("/form")
