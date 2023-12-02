@@ -68,19 +68,11 @@ public class HangoutController {
 //        return "/hangout/hangouts";
 //    }
 
-//    @GetMapping("/{id}")
-//    public String hangout(@PathVariable Long id, Model model) {
-//        HangoutDto hangout = service.getHangout(id);
-//        model.addAttribute("hangout", hangout);
-//        return "/hangout/hangout";
-//    }
-
     @GetMapping("/{hangoutId}")
-    public String hangout(
-            @PathVariable Long hangoutId,
-            ModelMap map)
-    {
-        return "hangouts/hangout";
+    public String hangout(@PathVariable Long hangoutId, Model model) {
+        HangoutDto hangout = hangoutService.getHangout(hangoutId);
+        model.addAttribute("hangout", hangout);
+        return "/hangouts/hangout";
     }
 
     @GetMapping("/search")
@@ -93,7 +85,7 @@ public class HangoutController {
         model.addAttribute("paging", paging);
         model.addAttribute("keyword", keyword);
         model.addAttribute("cate", cate);
-        return "/hangouts/hangouts";
+        return "/hangout/hangouts";
     }
 
     @GetMapping("/form")
