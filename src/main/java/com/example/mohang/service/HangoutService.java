@@ -4,6 +4,8 @@ import com.example.mohang.domain.Hangout;
 import com.example.mohang.domain.UserAccount;
 import com.example.mohang.domain.constant.SearchType;
 import com.example.mohang.dto.HangoutDto;
+import com.example.mohang.dto.HangoutWithDto;
+import com.example.mohang.dto.UserAccountDto;
 import com.example.mohang.entity.HangoutWith;
 import com.example.mohang.repository.HangoutRepository;
 import com.example.mohang.repository.HangoutWithRepository;
@@ -66,11 +68,17 @@ public class HangoutService {
         };
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void saveHangout(HangoutDto dto){
         UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
         Hangout written = hangoutRepository.save(dto.toEntity(userAccount));
         HangoutWith hangwith = new HangoutWith(written, userAccount.getUserId(), 1);
+        hangoutWithRepository.save(hangwith);
+    }
+
+    public void saveHangoutWith(HangoutWithDto dto, UserAccountDto userAccountDto) {
+        Hangout hangout = hangoutRepository.findById(dto.getHangId()).orElse(null);
+        HangoutWith hangwith = new HangoutWith(hangout, userAccountDto.userId(), 0);
         hangoutWithRepository.save(hangwith);
     }
 

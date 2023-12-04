@@ -76,7 +76,8 @@
 
                 <tr th:each="hangout : ${hangouts}">
                     <td th:text="${hangout.id}"></td>
-                    <td><a th:href="@{'/hangouts/' + ${hangout.id}}" th:text="${hangout.title}"/></td>
+                    <td><a sec:authorize="isAuthenticated()" th:href="@{'/hangouts/' + ${hangout.id}}" th:text="${hangout.title}"/></td>
+                    <td><a sec:authorize="!isAuthenticated()" th:href="@{'/oauth2/authorization/kakao'}" th:text="${hangout.title}"/></td>
                     <td th:text="${hangout.nickname}"></td>
                     <td th:datetime="${hangout.createdAt}" th:text="${#temporals.format(hangout.createdAt, 'yyyy-MM-dd')}"><time></time></td>
                 </tr>

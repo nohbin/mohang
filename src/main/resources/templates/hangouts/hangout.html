@@ -7,9 +7,9 @@
           rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
           crossorigin="anonymous">
     <style>
-        /*.hidden {*/
-        /*    display: none;*/
-        /*}*/
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -101,39 +101,44 @@
         }
     });
 </script>
-<!--<script>
+<script>
     function parti() {
         var chat_page = document.getElementById('chat-page');
         var parti_btn = document.getElementById('parti');
+
         /* 로그인 안한 회원 */
-            //로그인 페이지로 이동시키기
-        /* 로그인한 회원 */
-        var con = confirm('모임에 참여할건가요?');
-
-        if(con) {
-
-            var data = {
-                hangId: $('#id').val(),
-                userId: $(/********* 힝 힝 ***********/).val(),
-                writerOrNot: 0
-            };
-            $.ajax({
-                type: 'POST',
-                url: '/hagwith/participate',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(data)
-            }).done(function() {
-                parti_btn.classList.add('hidden')
-                chat_page.classList.remove('hidden');
-                var con = confirm('채팅방에도 들러보세요!');
-                if(con) {
-                    chat_page.click();
-                }
-            }).fail(function(error) {
-                alert(JSON.stringify(error))
-            });
+        if(!'[[${userId}]]'){
+            window.location.href="/oauth2/authorization/kakao";
         }
+        /* 로그인한 회원 */
+        if('[[${userId}]]') {
+            var con = confirm('모임에 참여할건가요?');
+
+            if(con) {
+                console.log($('#id').val());
+                var data = {
+                    hangId: $('#id').val(),
+                    userId: '[[${userId}]]',
+                    writerOrNot: 0
+                };
+                $.ajax({
+                    type: 'POST',
+                        url: '/hangwith/participate',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify(data)
+                }).done(function() {
+                    parti_btn.classList.add('hidden')
+                    chat_page.classList.remove('hidden');
+                    var con = confirm('채팅방에도 들러보세요!');
+                    if(con) {
+                        chat_page.click();
+                    }
+                }).fail(function(error) {
+                    alert(JSON.stringify(error))
+                });
+            }
+        }
+
     }
-</script>-->
+</script>
 </html>

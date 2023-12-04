@@ -69,9 +69,14 @@ public class HangoutController {
 //    }
 
     @GetMapping("/{hangoutId}")
-    public String hangout(@PathVariable Long hangoutId, Model model) {
+    public String hangout(@PathVariable Long hangoutId, Model model,
+                            @AuthenticationPrincipal CustomPrincipal customPrincipal) {
         HangoutDto hangout = hangoutService.getHangout(hangoutId);
         model.addAttribute("hangout", hangout);
+        String userId = customPrincipal.getUsername();
+        if(!userId.equals("") && userId !=null) {
+            model.addAttribute("userId", userId);
+        }
         return "/hangouts/hangout";
     }
 

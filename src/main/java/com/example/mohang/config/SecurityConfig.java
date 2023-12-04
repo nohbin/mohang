@@ -9,7 +9,9 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -48,7 +50,8 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(oAuth2UserService)
                         )
-                )
+                ).cors(Customizer.withDefaults()) // WebMvcConfig에서 이미 설정했으므로 기본 cors 설정.
+                .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
 
