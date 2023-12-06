@@ -190,7 +190,9 @@ public class HangoutControllerTest {
 
     private HangoutDto createHangoutDto(){
         return HangoutDto.of(
-                userAccountDto(),
+                userAccountDto().userId(),
+                userAccountDto().nickname(),
+                userAccountDto().email(),
                 "title",
                 "content",
                 "#drink",

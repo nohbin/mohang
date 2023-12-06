@@ -28,6 +28,13 @@ public interface HangoutRepository extends
         Page<Hangout> findByUserAccount_UserIdContaining(String UserId, Pageable pageable);
         Page<Hangout> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
         Page<Hangout> findByHashtag(String hashtag, Pageable pageable);
+        Page<Hangout> findByRegion1(String region1, Pageable pageable);
+        Page<Hangout> findByRegion2(String region2, Pageable pageable);
+        @Query(value="select * from hangout " +
+                "where region1 = :region_1 " +
+                "and region2 = :region_2"
+                , nativeQuery = true)
+        Page<Hangout> findByRegion(String region_1, String region_2, Pageable pageable);
 
         void deleteByIdAndUserAccount_UserId(Long hangoutId, String userId);
 
