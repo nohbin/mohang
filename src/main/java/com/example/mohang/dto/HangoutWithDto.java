@@ -13,11 +13,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class HangoutWithDto {
 
-    private Long hangId;
+    private Long hangoutId;
     private String userId;
     private int writerOrNot;
     private String comment;
-    private UserAccountDto userAccountDto;
 
 
 }

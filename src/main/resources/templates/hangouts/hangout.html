@@ -16,7 +16,7 @@
 <div class="container m-4" >
 
     <div class="col-md-10 m-4" >
-        <input type="hidden" id="id" th:value="${hangout.id}">
+        <input type="hidden" id="hangoutId" th:value="${hangout.id}">
         <div class="m-2">
             <label for="title">제목</label>
             <input type="text" class="form-control" id="title" readonly th:value="${hangout.title}">
@@ -36,6 +36,7 @@
         <div class="m-2">
             <label for="meetDate">모임일시</label>
             <input type="text" class="form-control" id="meetDate" readonly th:value="${hangout.meetDate}">
+            <!--TODO meetDate 누락됨-->
         </div>
         <div class="m-2">
             <label for="place">장소명</label>
@@ -115,9 +116,9 @@
             var con = confirm('모임에 참여할건가요?');
 
             if(con) {
-                console.log($('#id').val());
+                console.log($('#hangoutId').val());
                 var data = {
-                    hangId: $('#id').val(),
+                    hangoutId: $('#hangoutId').val(),
                     userId: '[[${userId}]]',
                     writerOrNot: 0
                 };

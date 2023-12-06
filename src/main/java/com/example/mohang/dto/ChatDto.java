@@ -10,34 +10,41 @@ import java.time.LocalDateTime;
 
 public record ChatDto(
      Long id,
-     @JsonProperty("hang_id")
-     Long hang_id,
+     @JsonProperty("hangoutId")
+     Long hangoutId,
      MessageType type,
-     UserAccountDto userAccountDto,
+     @JsonProperty("userId")
+     String userId,
+     String sender,
+     String email,
      String content,
      LocalDateTime createdAt
 ) {
     public static ChatDto of(
-                          @JsonProperty("hang_id")
-                          Long hang_id,
+                          @JsonProperty("hangoutId")
+                          Long hangoutId,
                           MessageType type,
-                          UserAccountDto userAccountDto,
+                          String userId,
+                          String nickname,
+                          String email,
                           String content
                           ) {
         return new ChatDto(
-                null,hang_id,type,userAccountDto,content,null
+                null, hangoutId, type, userId, nickname, email, content,null
         );
     }
 
     public static ChatDto of(Long id,
-                             @JsonProperty("hang_id")
-                             Long hang_id,
+                             @JsonProperty("hangoutId")
+                             Long hangoutId,
                              MessageType type,
-                             UserAccountDto userAccountDto,
+                             String userId,
+                             String nickname,
+                             String email,
                              String content,
                              LocalDateTime createdAt) {
         return new ChatDto(
-                id,hang_id,type,userAccountDto,content,createdAt
+                id,hangoutId,type,userId,nickname,email,content,createdAt
         );
     }
 
@@ -46,7 +53,9 @@ public record ChatDto(
                entity.getId(),
                entity.getHangout().getId(),
                entity.getType(),
-               UserAccountDto.from(entity.getUserAccount()),
+               entity.getUserAccount().getUserId(),
+               entity.getUserAccount().getNickname(),
+               entity.getUserAccount().getEmail(),
                entity.getContent(),
                entity.getCreatedAt()
        );

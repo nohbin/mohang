@@ -21,9 +21,9 @@ public record HangoutResponse(
     }
 
     public static HangoutResponse from(HangoutDto dto){
-        String nickname = dto.userAccountDto().nickname();
+        String nickname = dto.nickname();
         if(nickname == null || nickname.isBlank()){
-            nickname = dto.userAccountDto().userId();
+            nickname = dto.userId();
         }
         return new HangoutResponse(
                 dto.id(),
@@ -31,7 +31,7 @@ public record HangoutResponse(
                 dto.content(),
                 dto.hashtag(),
                 dto.createdAt(),
-                dto.userAccountDto().email(),
+                dto.email(),
                 nickname,
                 dto.meetDate(),
                 dto.place(),

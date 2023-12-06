@@ -24,7 +24,9 @@ public record HangoutRequest(
 
     public HangoutDto toDto(UserAccountDto userAccountDto){
         return HangoutDto.of(
-                userAccountDto,
+                userAccountDto.userId(),
+                userAccountDto.nickname(),
+                userAccountDto.email(),
                 title,
                 content,
                 hashtag,

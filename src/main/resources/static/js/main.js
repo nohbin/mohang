@@ -1,11 +1,11 @@
 
 'use strict';
-var hang_id = document.querySelector('#hang_id').value;
+var hangoutId = document.querySelector('#hangoutId').value;
 
-var usernamePage = document.querySelector('#username-page');
+var nicknamePage = document.querySelector('#nickname-page');
 var chatPage = document.querySelector('#chat-page');
 
-var usernameForm = document.querySelector('#usernameForm');
+var nicknameForm = document.querySelector('#nicknameForm');
 
 var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
@@ -14,17 +14,17 @@ var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 
 var stompClient = null;
-var username = null;
-
+var nickname = null;
+var chatMessage = null;
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
 function connect(event) {
-    username = (document.querySelector('#name')).value.trim();
-    if(username) {
-        usernamePage.classList.add('hidden');
+    nickname = (document.querySelector('#nickname')).value.trim();
+    if(nickname) {
+        nicknamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
         var socket = new SockJS('/ws');
@@ -37,14 +37,13 @@ function connect(event) {
     event.preventDefault();
 }
 function onConnected() {
-    console.log("에붸붸붸부베ㅞ");
-    // Subscribe to the  room#hang_id
-    stompClient.subscribe('/room/'+hang_id, onMessageReceived);
-
-    // Tell your username to the server
-    stompClient.send("/app/chat.addUser/"+hang_id,
+    console.log("연결 됨!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    // Subscribe to the  room#hangoutId
+    stompClient.subscribe('/room/'+hangoutId, onMessageReceived);
+    // Tell your nickname to the server
+    stompClient.send("/app/chat.addUser/"+hangoutId,
         {},
-        JSON.stringify({sender: username, type: 'JOIN'})
+        JSON.stringify({sender: nickname, type: 'JOIN'})
     )
 
     connectingElement.classList.add('hidden');
@@ -67,16 +66,16 @@ function sendMessage(event) {
         var hour = now.getHours()<10 ? '0'+now.getHours() : now.getHours() ;
         var minute = now.getMinutes()<10 ? '0'+now.getMinutes() : now.getMinutes();
         var second = now.getSeconds()<10 ? '0'+now.getSeconds() : now.getSeconds() ;
-        var time = year + '-' + month + '-' + date + " " + hour + ':' + minute + ':' + second;
+        var time = year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second;
+        console.log(time);
 
 
-
-        var chatMessage = {
-            sender: username,
+        chatMessage = {
+            hangoutId : hangoutId,
+            sender: nickname,
             content: messageInput.value,
             type: 'CHAT',
-            hang_id : hang_id,
-            time : time
+            sendTime : time
         };
 
 
@@ -86,8 +85,8 @@ function sendMessage(event) {
             body : JSON.stringify(chatMessage), // 자바스크립트 객체를 json 문자열로 변환해준다.
             headers : {"Content-Type" : "application/json"}
         }).then(response => {
-            console.log("아에이오우");
-            stompClient.send("/app/chat.sendMessage/" + hang_id , {}, JSON.stringify(chatMessage));
+            console.log("post 전송 이후 채팅창에 띄우기");
+            stompClient.send("/app/chat.sendMessage/" + hangoutId , {}, JSON.stringify(chatMessage));
             messageInput.value = '';
         });
     }
@@ -97,7 +96,8 @@ function sendMessage(event) {
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
-    console.log("♥" + payload.body);
+    console.log(message);
+
     var messageElement = document.createElement('li');
 
     if(message.type === 'JOIN') {
@@ -118,14 +118,14 @@ function onMessageReceived(payload) {
         avatarElement.style['background-color'] = getAvatarColor(message.sender[0]);
         messageElement.appendChild(avatarElement);
 
-        var usernameElement = document.createElement('span');
-        var usernameText = document.createTextNode(message.sender);
-        usernameElement.appendChild(usernameText);
-        messageElement.appendChild(usernameElement);
-        usernameElement.classList.add("sender");
+        var nicknameElement = document.createElement('span');
+        var nicknameText = document.createTextNode(message.sender);
+        nicknameElement.appendChild(nicknameText);
+        messageElement.appendChild(nicknameElement);
+        nicknameElement.classList.add("sender");
         /***************************** 전송 시간 표시하려고 함!!!!!!!! *********************************/
         var sendtimeElement = document.createElement('span');
-        var sendtimeText = document.createTextNode(message.time);
+        var sendtimeText = document.createTextNode('  '+chatMessage.sendTime);
         sendtimeElement.appendChild(sendtimeText);
         messageElement.appendChild(sendtimeElement);
         sendtimeElement.classList.add("send_time");
@@ -152,5 +152,5 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
-usernameForm.addEventListener('submit', connect, true);
+nicknameForm.addEventListener('submit', connect, true);
 messageForm.addEventListener('submit', sendMessage, true);

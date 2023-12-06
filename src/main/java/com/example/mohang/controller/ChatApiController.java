@@ -26,8 +26,11 @@ public class ChatApiController {
     @PostMapping("/hangout/chatting")
     public ResponseEntity<Chat> insertChat(@RequestBody ChatDto chatDto,
                                            @AuthenticationPrincipal CustomPrincipal customPrincipal) {
+        System.out.println(1 + ") chatDto : " + chatDto.toString());
         UserAccountDto userAccountDto = customPrincipal.toDto();
+        System.out.println(2 + ") userAccountDto : " + userAccountDto.toString());
         Chat insertedChat = chatService.insertChat(chatDto, userAccountDto);
+        System.out.println(3 + ") insertedChat : " + insertedChat.toString());
         return ResponseEntity.status(HttpStatus.OK).body(insertedChat);
     }
 
