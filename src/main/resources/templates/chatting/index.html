@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Spring Boot WebSocket Chat Application</title>
-    <link rel="stylesheet" th:href="@{/css/main.css?Ffdgsff}" />
+    <link rel="stylesheet" th:href="@{/css/main.css?sd}" />
 </head>
 <body>
 <noscript>
@@ -17,8 +17,7 @@
         <h1 class="title">Type your username</h1>
         <form id="usernameForm" name="usernameForm">
             <div class="form-group">
-
-                <input type="text" id="name" placeholder="Username" autocomplete="off" class="form-control" />
+                <input type="text" id="name" th:value="${username}" autocomplete="off" class="form-control" readonly/>
             </div>
             <div class="form-group">
                 <button type="submit" class="accent username-submit">Start Chatting</button>
@@ -41,7 +40,7 @@
             <li th:if="${chatList}" th:each="chat : ${chatList}" class="chat-message">
                 <i style="background-color: rgb(255, 133, 175);" th:text="${chat.getSender().substring(0,1)}"></i>
                 <span class="sender" th:text="${chat.getSender()}"></span>
-<!--                <span class="send_time" th:text="'  '+${chat.getTime().substring(0,10)}+' '+${chat.getTime().substring(11,19)}"></span>-->
+                <span class="send_time" th:text="'  '+${chat.getTime().substring(0,10)}+' '+${chat.getTime().substring(11,19)}"></span>
                 <p th:text="${chat.getContent()}"></p>
             </li>
         </ul>

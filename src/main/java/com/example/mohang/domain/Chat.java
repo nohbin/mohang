@@ -1,8 +1,10 @@
 package com.example.mohang.domain;
 
 import com.example.mohang.domain.constant.MessageType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,11 +29,13 @@ public class Chat {
     private String content;
 
     @Setter
+    @Getter
     @ManyToOne(optional = false)
     @JoinColumn(name = "userId")
     private UserAccount userAccount;
 
     @Setter
+    @Getter
     @ManyToOne(fetch = FetchType.EAGER)
     private Hangout hangout;
 
@@ -52,22 +56,7 @@ public class Chat {
         return new Chat(hangout,userAccount,content);
     }
 
-//    public static Chat createChat(ChatDto dto, Hangout hangout) {
-//        // 예외 처리
-//        if (hangout.getId() == null)
-//            throw new IllegalArgumentException("채팅 전송 실패! 게시글의 id가 있어야 합니다.");
-//        if (dto.getHang_id() != hangout.getId())
-//            throw new IllegalArgumentException("채팅 전송 실패! 게시글의 id가 잘못되었습니다.");
-//        // 엔티티 생성 및 반환
-//        return new Chat(
-//                dto.getId(),
-//                dto.getType(),
-//                dto.getContent(),
-//                dto.getSender(),
-//                hangout,
-//                LocalDateTime.now()
-//        );
-//    }
+
 
 
 

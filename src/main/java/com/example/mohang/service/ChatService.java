@@ -4,6 +4,7 @@ import com.example.mohang.domain.Hangout;
 import com.example.mohang.domain.UserAccount;
 import com.example.mohang.dto.ChatDto;
 import com.example.mohang.domain.Chat;
+import com.example.mohang.dto.UserAccountDto;
 import com.example.mohang.repository.ChatRepository;
 //import com.example.mohang.repository.HangOutRepository;
 import com.example.mohang.repository.HangoutRepository;
@@ -24,31 +25,31 @@ public class ChatService {
     private final HangoutRepository hangoutRepository;
     private final UserAccountRepository userAccountRepository;
 
-//    public Chat insertChat(ChatDto dto) {
-//       HangOut hangout = hangOutRepository.findById(dto.getHang_id()).orElse(null);
-//       Chat chat = Chat.createChat(dto, hangout);
-//        return null; //chatRepository.save(chat);
-//    }
+    public Chat insertChat(ChatDto chatDto, UserAccountDto userAccountDto) {
+        Hangout hangout = hangoutRepository.findById(chatDto.hang_id()).orElse(null);
+        Chat chat = chatDto.toEntity(hangout, userAccountDto.toEntity());
+        return chatRepository.save(chat);
+    }
 
-//    public List<ChatDto> selectAllChat() {
-//        List<Chat> chatList = chatRepository.findAll();
-//        List<ChatDto> dtoList = new ArrayList<>();
-//        for(Chat chat : chatList) {
-//            dtoList.add(ChatDto.createChatMessage(chat));
-//        }
-//        return dtoList;
-//    }
-//
-//
+    public List<ChatDto> selectAllChat() {
+        List<Chat> chatList = chatRepository.findAll();
+        List<ChatDto> dtoList = new ArrayList<>();
+        for(Chat chat : chatList) {
+            dtoList.add(ChatDto.from(chat));
+        }
+        return dtoList;
+    }
+
+
 //    public List<ChatDto> selectChatBySender(String sender) {
 //        List<Chat> chatList = chatRepository.findBySender(sender);
 //        List<ChatDto> dtoList = new ArrayList<>();
 //        for(Chat chat : chatList) {
-//            dtoList.add(ChatDto.createChatMessage(chat));
+//            dtoList.add(ChatDto.from(chat));
 //        }
 //        return dtoList;
 //    }
-//
+
     public List<ChatDto> selectChatByHangId(Long hangId) {
 //        List<Chat> chatList = chatRepository.findByHangId(hangId);
 //        List<ChatDto> dtoList = new ArrayList<>();

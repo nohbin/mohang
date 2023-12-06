@@ -35,4 +35,6 @@ public interface ChatRepository extends JpaRepository<Chat, Long>,
         bindings.including(root.content, root.createdAt);
         bindings.bind(root.content).first(StringExpression::containsIgnoreCase);
     }
+
+
 }

@@ -37,6 +37,7 @@ function connect(event) {
     event.preventDefault();
 }
 function onConnected() {
+    console.log("에붸붸붸부베ㅞ");
     // Subscribe to the  room#hang_id
     stompClient.subscribe('/room/'+hang_id, onMessageReceived);
 
@@ -81,10 +82,11 @@ function sendMessage(event) {
 
         const url = '/api/hangout/chatting';
         fetch(url, {
-            method : "post",
+            method : "POST",
             body : JSON.stringify(chatMessage), // 자바스크립트 객체를 json 문자열로 변환해준다.
             headers : {"Content-Type" : "application/json"}
         }).then(response => {
+            console.log("아에이오우");
             stompClient.send("/app/chat.sendMessage/" + hang_id , {}, JSON.stringify(chatMessage));
             messageInput.value = '';
         });
@@ -99,18 +101,21 @@ function onMessageReceived(payload) {
     var messageElement = document.createElement('li');
 
     if(message.type === 'JOIN') {
+        console.log("★★누구누구 조인");
         messageElement.classList.add('event-message');
         message.content = message.sender + ' joined!';
     } else if (message.type === 'LEAVE') {
+        console.log("★★누구누구 떠남");
         messageElement.classList.add('event-message');
         message.content = message.sender + ' left!';
     } else {
+        console.log("★★일반 채팅");
         messageElement.classList.add('chat-message');
 
         var avatarElement = document.createElement('i');
-        var avatarText = document.createTextNode(message.sender[0]);
+        var avatarText = document.createTextNode(message.sender);
         avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender);
+        avatarElement.style['background-color'] = getAvatarColor(message.sender[0]);
         messageElement.appendChild(avatarElement);
 
         var usernameElement = document.createElement('span');

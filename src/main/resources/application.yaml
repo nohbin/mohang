@@ -40,7 +40,9 @@ spring:
   data.rest:
     base-path: /hangapi
     detection-strategy: annotated
-
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
 
   security:
     oauth2:

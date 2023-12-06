@@ -31,7 +31,7 @@ public record ChatDto(
 
     public static ChatDto of(Long id,
                              @JsonProperty("hang_id")
-                          Long hang_id,
+                             Long hang_id,
                              MessageType type,
                              UserAccountDto userAccountDto,
                              String content,
