@@ -33,30 +33,30 @@ public class ChatController {
     private final ChatService chatService;
 
     @Transactional
-    @MessageMapping("/chat.sendMessage/{hang_id}")
-    @SendTo("/room/{hang_id}")
-    public ChatDto sendMessage(@Payload ChatDto chatMessage, @DestinationVariable String hang_id) {
+    @MessageMapping("/chat.sendMessage/{hangoutId}")
+    @SendTo("/room/{hangoutId}")
+    public ChatDto sendMessage(@Payload ChatDto chatMessage, @DestinationVariable String hangoutId) {
         return chatMessage;
     }
     @Transactional
-    @MessageMapping("/chat.addUser/{hang_id}")
-    @SendTo("/room/{hang_id}")
+    @MessageMapping("/chat.addUser/{hangoutId}")
+    @SendTo("/room/{hangoutId}")
     public ChatDto addUser(@Payload ChatDto chatMessage,
                            SimpMessageHeaderAccessor headerAccessor,
-                           @DestinationVariable String hang_id,
+                           @DestinationVariable String hangoutId,
                            @AuthenticationPrincipal CustomPrincipal customPrincipal) {
         // Add username in web socket session
-        Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", customPrincipal.nickname());
+        Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("nickname", chatMessage.sender());
         return chatMessage;
     }
-    @GetMapping("/hangout/{hang_id}/chatting")
-    public String chatting(Model model, @PathVariable Long hang_id,
+    @GetMapping("/hangout/{hangoutId}/chatting")
+    public String chatting(Model model, @PathVariable Long hangoutId,
                                         @AuthenticationPrincipal CustomPrincipal customPrincipal) {
-        Hangout hangout = hangoutRepository.findById(hang_id).orElse(null);
+        Hangout hangout = hangoutRepository.findById(hangoutId).orElse(null);
         model.addAttribute("hangout", hangout);
-        List<ChatDto> chatList = chatService.selectChatByHangId(hang_id);
+        List<ChatDto> chatList = chatService.selectChatByHangId(hangoutId);
         model.addAttribute("chatList", chatList);
-        model.addAttribute("username",customPrincipal.nickname());
+        model.addAttribute("sender",customPrincipal.nickname());
         return "chatting/index";
     }
 }

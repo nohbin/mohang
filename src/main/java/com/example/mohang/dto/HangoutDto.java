@@ -14,7 +14,9 @@ import java.time.LocalDateTime;
 @Builder
 public record HangoutDto(
         Long id,
-        UserAccountDto userAccountDto,
+        String userId,
+        String nickname,
+        String email,
         String title,
         String content,
         String hashtag,
@@ -28,7 +30,9 @@ public record HangoutDto(
 ) implements Serializable {
 
     public static HangoutDto of(
-                                UserAccountDto userAccountDto,
+                                String userId,
+                                String nickname,
+                                String email,
                                 String title,
                                 String content,
                                 String hashtag,
@@ -36,12 +40,14 @@ public record HangoutDto(
                                 String place,
                                 String address)
     {
-        return new HangoutDto(null,userAccountDto, title, content, hashtag, meetDate, place, address,null,null,null,null);
+        return new HangoutDto(null, userId, nickname, email, title, content, hashtag, meetDate, place, address,null,null,null,null);
     }
 
     public static HangoutDto of(
                                 Long id,
-                                UserAccountDto userAccountDto,
+                                String userId,
+                                String nickname,
+                                String email,
                                 String title,
                                 String content,
                                 String hashtag,
@@ -53,13 +59,15 @@ public record HangoutDto(
                                 LocalDateTime modifiedAt,
                                 String modifiedBy)
     {
-        return new HangoutDto(id, userAccountDto, title, content, hashtag, meetDate, place, address, createdAt, createdBy, modifiedAt, modifiedBy);
+        return new HangoutDto(id, userId, nickname, email, title, content, hashtag, meetDate, place, address, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
     public static HangoutDto from(Hangout entity) {
         return new HangoutDto(
                 entity.getId(),
-                UserAccountDto.from(entity.getUserAccount()),
+                entity.getUserAccount().getUserId(),
+                entity.getUserAccount().getNickname(),
+                entity.getUserAccount().getEmail(),
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getHashtag(),

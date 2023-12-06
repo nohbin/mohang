@@ -70,21 +70,21 @@ public class HangoutService {
 
     @Transactional
     public void saveHangout(HangoutDto dto){
-        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
+        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userId());
         Hangout written = hangoutRepository.save(dto.toEntity(userAccount));
         HangoutWith hangwith = new HangoutWith(written, userAccount.getUserId(), 1);
         hangoutWithRepository.save(hangwith);
     }
 
     public void saveHangoutWith(HangoutWithDto dto, UserAccountDto userAccountDto) {
-        Hangout hangout = hangoutRepository.findById(dto.getHangId()).orElse(null);
+        Hangout hangout = hangoutRepository.findById(dto.getHangoutId()).orElse(null);
         HangoutWith hangwith = new HangoutWith(hangout, userAccountDto.userId(), 0);
         hangoutWithRepository.save(hangwith);
     }
 
     public void updateHangout(Long hangoutId, HangoutDto dto){
         Hangout hangout = hangoutRepository.getReferenceById(hangoutId);
-        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
+        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userId());
 
         if(hangout.getUserAccount().equals(userAccount)){
             if(dto.title() != null){

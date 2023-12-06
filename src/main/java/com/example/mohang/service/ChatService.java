@@ -26,7 +26,7 @@ public class ChatService {
     private final UserAccountRepository userAccountRepository;
 
     public Chat insertChat(ChatDto chatDto, UserAccountDto userAccountDto) {
-        Hangout hangout = hangoutRepository.findById(chatDto.hang_id()).orElse(null);
+        Hangout hangout = hangoutRepository.findById(chatDto.hangoutId()).orElse(null);
         Chat chat = chatDto.toEntity(hangout, userAccountDto.toEntity());
         return chatRepository.save(chat);
     }
@@ -63,8 +63,8 @@ public class ChatService {
     }
 
     public void saveChat(ChatDto dto) {
-        Hangout hangout = hangoutRepository.getReferenceById(dto.hang_id());
-        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
+        Hangout hangout = hangoutRepository.getReferenceById(dto.hangoutId());
+        UserAccount userAccount = userAccountRepository.getReferenceById(dto.userId());
         chatRepository.save(dto.toEntity(hangout,userAccount));
     }
 }

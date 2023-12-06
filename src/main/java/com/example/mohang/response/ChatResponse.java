@@ -17,17 +17,17 @@ public record ChatResponse(
     }
 
     public static ChatResponse from(ChatDto dto){
-        String nickname = dto.userAccountDto().nickname();
+        String nickname = dto.sender();
         if (nickname == null || nickname.isBlank()) {
-            nickname = dto.userAccountDto().userId();
+            nickname = dto.userId();
         }
         return new ChatResponse(
                 dto.id(),
                 dto.content(),
                 dto.createdAt(),
-                dto.userAccountDto().email(),
+                dto.email(),
                 nickname,
-                dto.userAccountDto().userId()
+                dto.userId()
         );
     }
 }
