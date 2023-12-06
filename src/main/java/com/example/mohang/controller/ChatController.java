@@ -42,9 +42,8 @@ public class ChatController {
     @MessageMapping("/chat.addUser/{hangoutId}")
     @SendTo("/room/{hangoutId}")
     public ChatDto addUser(@Payload ChatDto chatMessage,
-                           SimpMessageHeaderAccessor headerAccessor,
-                           @DestinationVariable String hangoutId,
-                           @AuthenticationPrincipal CustomPrincipal customPrincipal) {
+                           SimpMessageHeaderAccessor headerAccessor/*,
+                           @DestinationVariable String hangoutId*/) {
         // Add username in web socket session
         Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("nickname", chatMessage.sender());
         return chatMessage;

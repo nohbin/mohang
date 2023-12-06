@@ -20,7 +20,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Transactional
 @Service
@@ -118,14 +120,20 @@ public class HangoutService {
 //        return written;
 //    }
 
-    public void participate() {
-
-    }
 
     public List<String> getHashtagList() {
         return hangoutRepository.findAllHashtag();
     }
-
+    public Map<String, List<String>> getRegionListMap() {
+        Map<String, List<String>> regionListMap = new HashMap<>();
+        List<String> region1List = hangoutRepository.findAllRegion1();
+        List<String> region2List;
+        for(String region1 : region1List) {
+            region2List = hangoutRepository.findAllRegion2(region1);
+            regionListMap.put(region1, region2List);
+        }
+        return regionListMap;
+    }
     public Page<Hangout> getByHashtag(String hashtag, Pageable pageable) {
         return hangoutRepository.findByHashtag(hashtag, pageable);
     }

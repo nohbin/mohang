@@ -49,6 +49,8 @@ public class HangoutController {
     ){
         Page<HangoutResponse> hangouts = hangoutService.searchHangouts(searchType,searchValue,pageable).map(HangoutResponse::from);
         List<Integer> barNumber = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), hangouts.getTotalPages());
+        Map<String,List<String>> regionListMap = hangoutService.getRegionListMap();
+        map.addAttribute("regionListMap", regionListMap);
         map.addAttribute("hangouts", hangouts);
         map.addAttribute("paginationBarNumbers",barNumber);
         map.addAttribute("searchTypes",SearchType.values());
