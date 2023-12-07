@@ -26,7 +26,7 @@ public class UserAccountService {
 
     public UserAccountDto saveUser(String username, String password, String email, String nickname){
         return UserAccountDto.from(
-                userAccountRepository.save(UserAccount.of(username, password, email, nickname, username))
+                userAccountRepository.save(UserAccount.of(username, password,  nickname,email, username))
         );
     }
 
