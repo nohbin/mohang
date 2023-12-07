@@ -41,7 +41,7 @@
             <li th:if="${chatList}" th:each="chat : ${chatList}" class="chat-message">
                 <i style="background-color: rgb(100, 100, 100);" th:text="${chat.sender()}"></i>
                 <span class="sender" th:text="${chat.sender()}"></span>
-                <span class="send_time" th:text="'  '+${chat.createdAt()}"></span>
+                <span class="send_time" th:text="'  '+${#temporals.format(chat.createdAt(),'yyyy-MM-dd HH:mm')}"></span>
                 <p th:text="${chat.content()}"></p>
             </li>
         </ul>

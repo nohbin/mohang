@@ -66,7 +66,7 @@ function sendMessage(event) {
         var hour = now.getHours()<10 ? '0'+now.getHours() : now.getHours() ;
         var minute = now.getMinutes()<10 ? '0'+now.getMinutes() : now.getMinutes();
         var second = now.getSeconds()<10 ? '0'+now.getSeconds() : now.getSeconds() ;
-        var time = year + '-' + month + '-' + date + ' ' + hour + ':' + minute + ':' + second;
+        var time = year + '-' + month + '-' + date + ' ' + hour + ':' + minute;
         console.log(time);
 
 

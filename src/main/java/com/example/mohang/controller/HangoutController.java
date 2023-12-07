@@ -42,7 +42,7 @@ public class HangoutController {
 
     @GetMapping
     public String hangouts(
-            @RequestParam(required = false)SearchType searchType,
+            @RequestParam(required = false) SearchType searchType,
             @RequestParam(required = false) String searchValue,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable,
             ModelMap map
