@@ -68,6 +68,7 @@ public class HangoutService {
             case ID ->hangoutRepository.findByUserAccount_UserIdContaining(searchKeyword, pageable).map(HangoutDto::from);
             case NICKNAME ->hangoutRepository.findByUserAccount_NicknameContaining(searchKeyword, pageable).map(HangoutDto::from);
             case HASHTAG ->hangoutRepository.findByHashtag("#" + searchKeyword, pageable).map(HangoutDto::from);
+            case REGION ->hangoutRepository.findByRegion2(searchKeyword, pageable).map(HangoutDto::from);
         };
     }
 

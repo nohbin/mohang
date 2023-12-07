@@ -58,7 +58,7 @@
                 <li class="text-white" th:if="${regionList.getKey() != null}"th:text="${regionList.getKey()}"></li>
                 <ul class="list-unstyled mx-3">
                         <li class="text-white" th:if="${region != ''}" th:each="region : ${regionList.getValue()}">
-                            <a th:text="${region}"></a>
+                            <a th:text="${region}" th:href="'/hangouts?searchType=REGION&searchValue='+ ${region}"></a>
                         </li>
                 </ul>
             </ul>
