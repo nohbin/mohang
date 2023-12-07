@@ -7,6 +7,7 @@ import com.example.mohang.dto.HangoutDto;
 import com.example.mohang.dto.HangoutWithDto;
 import com.example.mohang.dto.UserAccountDto;
 import com.example.mohang.entity.HangoutWith;
+import com.example.mohang.entity.HangoutWithID;
 import com.example.mohang.repository.HangoutRepository;
 import com.example.mohang.repository.HangoutWithRepository;
 import com.example.mohang.repository.UserAccountRepository;
@@ -108,6 +109,7 @@ public class HangoutService {
                 hangout.setAddress(dto.address());
             }
         }
+        hangoutRepository.save(hangout);
     }
 
 //    @Transactional
@@ -147,5 +149,10 @@ public class HangoutService {
 
     public void deleteHangout(long hangoutId, String userId) {
         hangoutRepository.deleteByIdAndUserAccount_UserId(hangoutId,userId);
+    }
+
+    public boolean isJoined(Long hangoutId, String userId) {
+        return hangoutWithRepository.findByHangoutAndUserId(hangoutId, userId) == null ||
+                hangoutWithRepository.findByHangoutAndUserId(hangoutId, userId).equals("") ? false : true;
     }
 }

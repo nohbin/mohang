@@ -79,6 +79,8 @@ public class HangoutController {
         if(!userId.equals("") && userId !=null) {
             model.addAttribute("userId", userId);
         }
+        boolean isJoined = hangoutService.isJoined(hangout.id(), userId);
+        model.addAttribute("isJoined", isJoined);
         return "/hangouts/hangout";
     }
 

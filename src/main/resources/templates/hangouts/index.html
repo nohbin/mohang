@@ -13,12 +13,16 @@
 <div id="page-wrapper">
     <!-- 사이드바 -->
     <div id="sidebar-wrapper">
-        <div class="container-fluid ">
+        <div class="container-fluid my-3">
+            <div class="btn-group m-1">
             <a role="button" id="kakao-login" class="me-2" sec:authorize="!isAuthenticated()" th:href="@{/oauth2/authorization/kakao}">
                 <img alt="Kakao Login" src="/images/kakao_login_medium.png" >
             </a>
-            <a role="button" id="kakao-logout" class="me-2" sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃
-            </a>
+            <a role="button" id="kakao-logout" class="me-2" sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
+
+            </div>
+        </div>
+        <div class="container-fluid my-3">
             <form class="" role="search" th:action="@{/hangouts}" th:method="get">
                 <h4 class="text-white m-1">Search</h4>
                 <div class="form-group m-1">
@@ -31,15 +35,15 @@
                     </select>
                 </div>
                 <div class="form-group d-flex m-1">
-                    <input class="form-control me-2" name="searchValue" type="search" placeholder="Search" aria-label="Search" th:value="${param.searchValue}">
+                    <input class="form-control me-2" name="searchValue" type="search" placeholder="keyword" aria-label="Search" th:value="${param.searchValue}">
                     <button type="submit" class="btn btn-danger" >Search</button>
                 </div>
             </form>
         </div>
-        <div class="container-fluid">
-            <a role="button" type="button" class="btn btn-warning m-1 w-100" sec:authorize="isAuthenticated()" th:href="@{/hangouts/form}" >모임만들기</a>
+        <div class="container-fluid d-flex overflow-hidden justify-content-center ">
+            <a role="button" type="button" class="flex-item btn btn-warning m-1 w-100" sec:authorize="isAuthenticated()" th:href="@{/hangouts/form}" >모임만들기</a>
         </div>
-        <br>
+
         <!--
         <div class="container-fluid">
             <h4 class="text-white m-1">Hashtag</h4>
@@ -48,19 +52,18 @@
             </ul>
         </div>
 -->
-<!--        <div class="container-fluid" th:each="regionList : ${regionListMap}">
-            <h4 class="text-white m-1" th:value="${regionList.key}"></h4>
-            <ul class="sidebar-nav m-1" th:each="region : ${regionList.value}">
-                <li><a th:if="${region != null}" th:href="" th:text="${region}"></a></li>
+        <div class="container-fluid my-3">
+            <h4 class="text-white m-1">Region</h4></div>
+            <ul class="sidebar-nav list-unstyled mx-1" th:each="regionList : ${regionListMap.entrySet()}">
+                <li class="text-white" th:if="${regionList.getKey() != null}"th:text="${regionList.getKey()}"></li>
+                <ul class="list-unstyled mx-3">
+                        <li class="text-white" th:if="${region != ''}" th:each="region : ${regionList.getValue()}">
+                            <a th:text="${region}"></a>
+                        </li>
+                </ul>
             </ul>
-        </div>-->
 
 
-        <div class="text-white" th:each="regionList : ${regionListMap.entrySet()}">
-            <p class="text-white" th:text="${regionList.getKey()}">
-                <p class="text-white" th:each="region : ${regionList.getValue()}" th:text="${region}"></p>
-            </p>
-        </div>
 <!--        <ul class="sidebar-nav">
 
             <li class="sidebar-brand">
