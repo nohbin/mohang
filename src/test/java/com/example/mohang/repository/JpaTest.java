@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.assertj.core.api.SoftAssertions;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -104,4 +106,14 @@ public class JpaTest {
         }
     }
 
+    @Test
+    void testQuery() {
+        List<String> list = hangoutRepository.findAllRegion2("경기도");
+        SoftAssertions.assertSoftly(s -> {
+            s.assertThat(list.contains("용인시"));
+            s.assertThat(list.contains("수원시"));
+            s.assertThat(list.contains("안산시"));
+            s.assertThat(list.contains("남양주시"));
+        });
+    }
 }

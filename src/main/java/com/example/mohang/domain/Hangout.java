@@ -68,6 +68,8 @@ public class Hangout {
     @Setter
     @Column
     private String address;
+    private String region1;
+    private String region2;
     protected Hangout(){}
 
     private Hangout(UserAccount userAccount,String title, String content, String hashtag , LocalDateTime meetDate, String place, String address){
@@ -78,6 +80,9 @@ public class Hangout {
         this.meetDate = meetDate;
         this.place = place;
         this.address = address;
+        String[] splittedAddress = address.split(" ");
+        this.region1 = splittedAddress[0];
+        this.region2 = splittedAddress[1];
     }
 
     public static Hangout of(UserAccount userAccount,String title, String content, String hashtag, LocalDateTime meetDate, String place, String address ) {

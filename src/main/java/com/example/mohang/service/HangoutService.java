@@ -7,6 +7,7 @@ import com.example.mohang.dto.HangoutDto;
 import com.example.mohang.dto.HangoutWithDto;
 import com.example.mohang.dto.UserAccountDto;
 import com.example.mohang.entity.HangoutWith;
+import com.example.mohang.entity.HangoutWithID;
 import com.example.mohang.repository.HangoutRepository;
 import com.example.mohang.repository.HangoutWithRepository;
 import com.example.mohang.repository.UserAccountRepository;
@@ -20,7 +21,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Transactional
 @Service
@@ -65,6 +68,7 @@ public class HangoutService {
             case ID ->hangoutRepository.findByUserAccount_UserIdContaining(searchKeyword, pageable).map(HangoutDto::from);
             case NICKNAME ->hangoutRepository.findByUserAccount_NicknameContaining(searchKeyword, pageable).map(HangoutDto::from);
             case HASHTAG ->hangoutRepository.findByHashtag("#" + searchKeyword, pageable).map(HangoutDto::from);
+            case REGION ->hangoutRepository.findByRegion2(searchKeyword, pageable).map(HangoutDto::from);
         };
     }
 
@@ -106,6 +110,7 @@ public class HangoutService {
                 hangout.setAddress(dto.address());
             }
         }
+        hangoutRepository.save(hangout);
     }
 
 //    @Transactional
@@ -118,14 +123,20 @@ public class HangoutService {
 //        return written;
 //    }
 
-    public void participate() {
-
-    }
 
     public List<String> getHashtagList() {
         return hangoutRepository.findAllHashtag();
     }
-
+    public Map<String, List<String>> getRegionListMap() {
+        Map<String, List<String>> regionListMap = new HashMap<>();
+        List<String> region1List = hangoutRepository.findAllRegion1();
+        List<String> region2List;
+        for(String region1 : region1List) {
+            region2List = hangoutRepository.findAllRegion2(region1);
+            regionListMap.put(region1, region2List);
+        }
+        return regionListMap;
+    }
     public Page<Hangout> getByHashtag(String hashtag, Pageable pageable) {
         return hangoutRepository.findByHashtag(hashtag, pageable);
     }
@@ -139,5 +150,10 @@ public class HangoutService {
 
     public void deleteHangout(long hangoutId, String userId) {
         hangoutRepository.deleteByIdAndUserAccount_UserId(hangoutId,userId);
+    }
+
+    public boolean isJoined(Long hangoutId, String userId) {
+        return hangoutWithRepository.findByHangoutAndUserId(hangoutId, userId) == null ||
+                hangoutWithRepository.findByHangoutAndUserId(hangoutId, userId).equals("") ? false : true;
     }
 }

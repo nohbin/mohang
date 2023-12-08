@@ -23,6 +23,8 @@ public record HangoutDto(
         LocalDateTime meetDate,
         String place,
         String address,
+        String region1,
+        String region2,
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
@@ -40,7 +42,7 @@ public record HangoutDto(
                                 String place,
                                 String address)
     {
-        return new HangoutDto(null, userId, nickname, email, title, content, hashtag, meetDate, place, address,null,null,null,null);
+        return new HangoutDto(null, userId, nickname, email, title, content, hashtag, meetDate, place, address,null,null,null,null,null,null);
     }
 
     public static HangoutDto of(
@@ -59,7 +61,7 @@ public record HangoutDto(
                                 LocalDateTime modifiedAt,
                                 String modifiedBy)
     {
-        return new HangoutDto(id, userId, nickname, email, title, content, hashtag, meetDate, place, address, createdAt, createdBy, modifiedAt, modifiedBy);
+        return new HangoutDto(id, userId, nickname, email, title, content, hashtag, meetDate, place, address, address.split(" ")[0], address.split(" ")[1], createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
     public static HangoutDto from(Hangout entity) {
@@ -74,6 +76,8 @@ public record HangoutDto(
                 entity.getMeetDate(),
                 entity.getPlace(),
                 entity.getAddress(),
+                entity.getRegion1(),
+                entity.getRegion2(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),

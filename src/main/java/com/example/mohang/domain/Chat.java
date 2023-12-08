@@ -44,6 +44,7 @@ public class Chat {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
+
     protected Chat(){}
 
     private Chat(Hangout hangout, UserAccount userAccount,String content){

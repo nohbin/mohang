@@ -69,14 +69,14 @@
 -->
             <div class="m-2">
                 <label for="content">내용</label>
-                <textarea class="form-control" rows="10" id="content" name="content" th:value="${hangout?.content} ?: _"></textarea>
+                <textarea class="form-control" rows="10" id="content" name="content" th:text="${hangout?.content} ?: _"></textarea>
             </div><div class="m-2">
                 <label for="hashtag">해쉬태그</label>
-                <textarea class="form-control" rows="10" id="hashtag" name="hashtag" th:value="${hangout?.hashtag} ?: _"></textarea>
+                <textarea class="form-control" rows="10" id="hashtag" name="hashtag" th:text="${hangout?.hashtag} ?: _"></textarea>
             </div>
             <div class="m-2" id="datepic">
                 <label for="meetDate">모임일시</label>
-                <input type="text" class="form-control" id="meetDate" name="meetDate" readonly th:value="${hangout?.meetDate} ?: _">
+                <input type="text" class="form-control" id="meetDate" name="meetDate" readonly th:value=" ${hangout}? ${#temporals.format(hangout.meetDate,'yyyy-MM-dd HH:mm')}: _">
             </div>
             <div class="m-2">
                 <label for="place">장소명</label>
@@ -90,9 +90,7 @@
             <a class="btn btn-outline-dark" th:href="@{/templates/hangouts}">목록보기</a>
             <button type="reset"  class="btn btn-warning">다시작성</button>
             <button type="submit" class="btn btn-info" th:text="${formStatus?.description} ?: _">작성하기</button>
-<!--
-            <a class="btn btn-outline-info" th:href="@{'/hangout/'+${hangout.id}+'/chatting'}" th:onclick="window.open(this.href, '_blank', 'width=850, height=1000'); return false;" ref="noreferrer noopener">채팅하기</a>
--->
+
         </form>
 
         <div class="map_wrap">

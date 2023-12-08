@@ -57,14 +57,14 @@ class ChatServiceTest {
     @Test
     void givenChatComment_whenSavingChatComment_thenSaveChatComment(){
         ChatDto dto = createChatDto("content");
-        given(hangoutRepository.getReferenceById(dto.hang_id())).willReturn(createHangout());
-        given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(createUserAccount());
+        given(hangoutRepository.getReferenceById(dto.hangoutId())).willReturn(createHangout());
+        given(userAccountRepository.getReferenceById(dto.userId())).willReturn(createUserAccount());
         given(chatRepository.save(ArgumentMatchers.any(Chat.class))).willReturn(null);
 
         chatService.saveChat(dto);
 
-        BDDMockito.then(hangoutRepository).should().getReferenceById(dto.hang_id());
-        BDDMockito.then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
+        BDDMockito.then(hangoutRepository).should().getReferenceById(dto.hangoutId());
+        BDDMockito.then(userAccountRepository).should().getReferenceById(dto.userId());
         BDDMockito.then(chatRepository).should().save(ArgumentMatchers.any(Chat.class));
     }
 
@@ -114,11 +114,11 @@ class ChatServiceTest {
     private ChatDto createChatDto(String content){
         return ChatDto.of(
                 1L,
-                1L,
                 MessageType.CHAT,
-                userAccountDto(),
-                content,
-                LocalDateTime.now()
+                userAccountDto().userId(),
+                userAccountDto().nickname(),
+                userAccountDto().email(),
+                content
         );
     }
 

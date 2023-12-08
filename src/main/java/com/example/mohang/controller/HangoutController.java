@@ -42,13 +42,15 @@ public class HangoutController {
 
     @GetMapping
     public String hangouts(
-            @RequestParam(required = false)SearchType searchType,
+            @RequestParam(required = false) SearchType searchType,
             @RequestParam(required = false) String searchValue,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable,
             ModelMap map
     ){
         Page<HangoutResponse> hangouts = hangoutService.searchHangouts(searchType,searchValue,pageable).map(HangoutResponse::from);
         List<Integer> barNumber = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), hangouts.getTotalPages());
+        Map<String,List<String>> regionListMap = hangoutService.getRegionListMap();
+        map.addAttribute("regionListMap", regionListMap);
         map.addAttribute("hangouts", hangouts);
         map.addAttribute("paginationBarNumbers",barNumber);
         map.addAttribute("searchTypes",SearchType.values());
@@ -77,6 +79,8 @@ public class HangoutController {
         if(!userId.equals("") && userId !=null) {
             model.addAttribute("userId", userId);
         }
+        boolean isJoined = hangoutService.isJoined(hangout.id(), userId);
+        model.addAttribute("isJoined", isJoined);
         return "/hangouts/hangout";
     }
 
