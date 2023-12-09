@@ -93,7 +93,7 @@ public class HangoutService {
         Hangout hangout = hangoutRepository.getReferenceById(hangoutId);
         UserAccount userAccount = userAccountRepository.getReferenceById(dto.userId());
 
-        if(hangout.getUserAccount().equals(userAccount)){
+        if(hangout.getUserAccount().getUserId().equals(userAccount.getUserId())){
             if(dto.title() != null){
                 hangout.setTitle(dto.title());
             }
