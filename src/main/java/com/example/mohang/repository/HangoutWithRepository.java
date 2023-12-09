@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface HangoutWithRepository extends JpaRepository<HangoutWith, HangoutWithID> {
@@ -17,7 +18,8 @@ public interface HangoutWithRepository extends JpaRepository<HangoutWith, Hangou
 
     @Query(value="select user_id, nickname from user_account " +
             "where user_id in (select user_id from hangout_with where hangout_id = :hangoutId)", nativeQuery = true)
-    List<HangoutWith> findByHangoutId(@Param("hangoutId") Long hangoutId);
+    List<String[]> findByHangoutId(@Param("hangoutId") Long hangoutId);
 
-    void deleteByHangout_Id(@Param("hangoutId") long hangoutId);
+    void deleteByHangout_Id(Long hangoutId);
+
 }

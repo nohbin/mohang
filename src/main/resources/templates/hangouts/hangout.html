@@ -6,11 +6,6 @@
     <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css}"
           rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
           crossorigin="anonymous">
-    <style>
-        .hidden {
-            display: none;
-        }
-    </style>
 </head>
 <body>
 <div class="container m-4 row" >
@@ -52,8 +47,8 @@
            th:href="'/hangouts/'+${hangoutId} + '/form'" onclick="return updateCheck()">수정하기</a>
         <button type="button" class="btn btn-outline-dark"
                 th:if="${hangout.createdBy() == userId}" id="delete-btn" onclick="return deleteCheck()">삭제하기</button>
-        <button type="button" class="btn btn-outline-dark" id="parti" onclick="parti();">참여하기</button>
-        <a class="btn btn-outline-info hidden" id="chat-page" th:href="@{'/hangout/'+${hangout.id}+'/chatting'}" th:onclick="window.open(this.href, '_blank', 'width=850, height=1000'); return false;" ref="noreferrer noopener">채팅하기</a>
+        <button th:if="${!isJoined}" type="button" class="btn btn-outline-dark" id="parti" onclick="parti();">참여하기</button>
+        <a  th:if="${isJoined}" class="btn btn-outline-info" id="chat-page" th:href="@{'/hangout/'+${hangout.id}+'/chatting'}" th:onclick="window.open(this.href, '_blank', 'width=850, height=1000'); return false;" ref="noreferrer noopener">채팅하기</a>
         <br><br>
         <div id="map" style="width:100%;height:350px;"></div>
     </div>
@@ -61,8 +56,8 @@
     <div class="col-md-3 m-4" >
         <div class="m-2">
             <label for="joiners">참여자</label>
-            <ul id="joiners" class="list-unstyled">
-                <li>아직 참여자가 없습니다.</li>
+            <ul id="joiners" class="joiners"  th:each="user: ${joiners}">
+                <li><a th:href="@{'/users/'+${user[0]}}" th:text="${user[1]}"></a></li>
             </ul>
         </div>
     </div>
@@ -144,11 +139,10 @@
                         contentType: 'application/json; charset=utf-8',
                         data: JSON.stringify(data)
                 }).done(function() {
-                    parti_btn.classList.add('hidden')
-                    chat_page.classList.remove('hidden');
                     var con = confirm('채팅방에도 들러보세요!');
                     if(con) {
-                        chat_page.click();
+                        window.open('/hangout/'+ hangoutId +'/chatting', '_blank', 'width=850, height=1000');
+                        location.replace("/hangouts/" + hangoutId);
                     }
                 }).fail(function(error) {
                     alert(JSON.stringify(error))
@@ -192,6 +186,177 @@
 
 
     }
-
 </script>
+<!--<script>
+    var joinService = (function() {
+        function join() {
+            $.ajax({
+                type : 'POST',
+                url : '/users/'+hangoutId + '/join',
+                data : JSON.stringify({userId : userId}),
+                contentType : "application/json; charset=utf-8",
+            });
+        }
+        function getList(callback, joinersUL) {
+            $.getJSON(
+                '/users/' + hangoutId + '/joiners.json',
+                function(data) {
+                    if(callback) {
+                        console.log(data);
+                        callback(data.list);
+                    }
+                }
+            ).done(
+                function(data) {
+                    for (var i = 0, len = data.list.length || 0 ; i<len; i++) {
+                        str += '<li class="joiner"><a th:href="@{' + "'/users/'+${user.user_id}}" + '"' +
+                            'th:text="${user.nickname}">딸기</a></li>';
+                        console.log(str);
+                    }
+                    joinersUL.html(str);
+                }
+            );
+        }
+        function remove() {
+            $.ajax({
+                type : 'DELETE',
+                url : '/users/' + hangoutId + '/joiners',
+                dataType : 'text',
+                data: {userId : userId}
+            });
+        }
+
+        return {
+            join : join,
+            getList : getList,
+            remove : remove
+        };
+    })();
+
+
+
+    $(document).ready(function() {
+
+        var bnoValue = '<c:out value="${board.bno}"/>';
+        var joinersUL = $(".joiners");
+
+        var pageNum = 1; // reply pagenation
+        var replyPageFooter = $('.panel-footer');
+
+        var modal = $('.modal');
+        var modalInputReply = modal.find('input[name="reply"]');
+        var modalInputReplyer = modal.find('input[name="replyer"]');
+        var modalInputReplyDate = modal.find('input[name="replyDate"]');
+        var modalModifyBtn = $('#modalModifyBtn');
+        var modalRemoveBtn = $('#modalRemoveBtn');
+        var modalRegisterBtn = $('#modalRegisterBtn');
+        var modalCloseBtn = $('#modalCloseBtn');
+
+        showList(1);
+
+
+        function showList(page) {
+            joinService.getList(function(replyCount, list) {
+                if(page == -1) {
+                    pageNum = Math.ceil(replyCount/10.0);
+                    showList(pageNum);
+                    return;
+                }
+                var str="";
+                if(list==null || list.length ==0) {
+                    replyUL.html("");
+                    return;
+                }
+
+                showReplyPage(replyCount); //추가됨
+            }); //end function
+        }//end showList
+
+        $('#addReplyBtn').on("click", function(e){
+            modal.find('input').val('');
+            modalInputReplyDate.closest('div').hide();
+            modal.find('button[id != "modalCloseBtn"]').hide();
+            modalRegisterBtn.show();
+            $('.modal').modal('show');
+        });
+
+
+
+        $('.chat').on('click', 'li', function(e) {
+            var rno = $(this).data('rno');
+            replyService.get(rno, function(reply){
+                modalInputReply.val(reply.reply);
+                modalInputReplyer.val(reply.replyer);
+                modalInputReplyDate.val(replyService.displayTime(reply.replyDate)).attr("readonly", "readonly");
+
+                modal.data("rno", reply.rno);
+                modal.find('button[id != "modalCloseBtn"]').hide();
+                modalModifyBtn.show();
+                modalRemoveBtn.show();
+
+                $('.modal').modal('show');
+            });
+        });
+
+        modalRegisterBtn.on("click", function(e) {
+            var reply = {
+                reply: modalInputReply.val(),
+                replyer: modalInputReplyer.val(),
+                bno: bnoValue
+            };
+            replyService.add(reply, function(result) {
+                alert(result);
+                modal.find('input').val('');
+                modal.modal('hide');
+                showList(-1);
+            });
+        });
+
+
+        modalModifyBtn.on("click", function(e){
+            var reply = {rno: modal.data("rno"), reply: modalInputReply.val(), replyer: modalInputReplyer.val()};
+            replyService.update(reply, function(result) {
+                alert(result);
+                modal.modal("hide");
+                showList(pageNum);
+            });
+        });
+
+        modalRemoveBtn.on("click", function(e){
+            var rno = modal.data("rno");
+            replyService.remove(rno, function(result) {
+                alert(result);
+                modal.modal("hide");
+                showList(pageNum);
+            });
+        });
+        modalCloseBtn.on("click", function(e){
+            modal.modal("hide");
+        });
+
+        var operForm = $("#operForm");
+
+        $("button[data-oper='modify']").on("click", function(e) {
+            operForm.attr("action", "/board/modify").submit();
+        });
+
+        $("button[data-oper='list']").on("click", function(e) {
+
+            operForm.find("#bno").remove();
+            operForm.attr("action", "/board/list").submit();
+        });
+
+        $('button[data-oper="recommend"]').on('click', function(e) {
+            recommend(bnoValue
+                , function(result){
+                    alert("추천하셨습니다.");
+                    $('#recommendCount').html(result);
+                }, function(er) {
+                    console.log("진짜로 잘 모르겠다구요,....");
+                }
+            );
+        });
+    });
+
+</script>-->
 </html>

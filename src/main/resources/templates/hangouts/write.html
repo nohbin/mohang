@@ -89,7 +89,7 @@
             <br>
             <a class="btn btn-outline-dark" th:href="@{/templates/hangouts}">목록보기</a>
             <button type="reset"  class="btn btn-warning">다시작성</button>
-            <button type="submit" class="btn btn-info" th:text="${formStatus?.description} ?: _">작성하기</button>
+            <button type="submit" class="btn btn-info" th:text="${formStatus?.description} ?: _" th:onclick="return submitCheck()">작성하기</button>
 
         </form>
 
@@ -378,5 +378,39 @@
     document.querySelector('#placeSearch').addEventListener('click', function() {
         asyncFunction(divInfo);
     });
+</script>
+
+<script>
+    var title = $('#title');
+    var content = $('#content');
+    var meetDate = $('#meetDate');
+    var place = $('#place');
+    var address = $('#address');
+    function submitCheck() {
+        if(title.val().length == 0) {
+            alert('모임 제목을 입력해주세요.');
+            return false;
+        }
+        if(content.val().length == 0) {
+            alert('모임 내용을 입력해주세요.');
+            return false;
+        }
+        if(meetDate.val().length == 0) {
+            alert('모임 일시를 입력해주세요.');
+            return false;
+        }
+        if(place.val().length == 0) {
+            alert('모임 장소를 입력해주세요.');
+            return false;
+        }
+        if(address.val().length == 0 || address.val === " ") {
+            alert('주소를 입력해주세요.');
+            return false;
+        } else if(!address.val().match(" ")) {
+            alert('주소를 올바르게 입력해주세요.')
+            return false;
+        }
+        return true;
+    }
 </script>
 </html>

@@ -5,6 +5,7 @@ import com.example.mohang.domain.Hangout;
 import com.example.mohang.domain.constant.FormStatus;
 import com.example.mohang.domain.constant.SearchType;
 import com.example.mohang.dto.HangoutDto;
+import com.example.mohang.dto.HangoutWithDto;
 import com.example.mohang.entity.HangoutWith;
 import com.example.mohang.repository.HangoutRepository;
 
@@ -76,6 +77,8 @@ public class HangoutController {
                             @AuthenticationPrincipal CustomPrincipal customPrincipal) {
         HangoutDto hangout = hangoutService.getHangout(hangoutId);
         model.addAttribute("hangout", hangout);
+        List<String[]> joiners = hangoutService.getJoinersByHangoutId(hangoutId);
+        model.addAttribute("joiners", joiners);
         String userId = customPrincipal.getUsername();
         if(!userId.equals("") && userId !=null) {
             model.addAttribute("userId", userId);

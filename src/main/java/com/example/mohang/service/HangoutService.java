@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -84,7 +85,7 @@ public class HangoutService {
     }
 
     public void saveHangoutWith(HangoutWithDto dto, UserAccountDto userAccountDto) {
-        Hangout hangout = hangoutRepository.findById(dto.getHangoutId()).orElse(null);
+        Hangout hangout = hangoutRepository.findById(dto.hangoutId()).orElse(null);
         HangoutWith hangwith = new HangoutWith(hangout, userAccountDto.userId(), 0);
         hangoutWithRepository.save(hangwith);
     }
@@ -163,7 +164,7 @@ public class HangoutService {
                 hangoutWithRepository.findByHangoutAndUserId(hangoutId, userId).equals("") ? false : true;
     }
 
-    public List<HangoutWith> getJoinersByHangoutId(Long hangoutId) {
+    public List<String[]> getJoinersByHangoutId(Long hangoutId) {
         return hangoutWithRepository.findByHangoutId(hangoutId);
     }
 }
