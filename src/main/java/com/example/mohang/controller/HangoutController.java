@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -133,13 +134,15 @@ public class HangoutController {
         return "redirect:/hangouts/"+hangoutId;
     }
 
-    @PostMapping("/{hangoutId}/delete")
-    public String deleteHangout(
+    @Transactional
+    @ResponseBody
+    @DeleteMapping("/{hangoutId}/delete")
+    public ResponseEntity<?> deleteHangout(
             @PathVariable Long hangoutId,
             @AuthenticationPrincipal CustomPrincipal customPrincipal
     ){
         hangoutService.deleteHangout(hangoutId, customPrincipal.getUsername());
-        return "redirect:/hangouts";
+        return ResponseEntity.ok().build();
     }
 
 

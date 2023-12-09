@@ -37,4 +37,7 @@ public interface ChatRepository extends JpaRepository<Chat, Long>,
     }
 
 
+
+    void deleteByHangout_Id(@Param("hangoutId") long hangoutId);
+
 }

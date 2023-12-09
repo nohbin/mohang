@@ -8,10 +8,12 @@ import com.example.mohang.dto.HangoutWithDto;
 import com.example.mohang.dto.UserAccountDto;
 import com.example.mohang.entity.HangoutWith;
 import com.example.mohang.entity.HangoutWithID;
+import com.example.mohang.repository.ChatRepository;
 import com.example.mohang.repository.HangoutRepository;
 import com.example.mohang.repository.HangoutWithRepository;
 import com.example.mohang.repository.UserAccountRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.ProblemDetail;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,7 @@ public class HangoutService {
     private final UserAccountRepository userAccountRepository;
     private final HangoutRepository hangoutRepository;
     private final HangoutWithRepository hangoutWithRepository;
+    private final ChatRepository chatRepository;
 
     public Page<Hangout> getList(Pageable pageable) {
         return this.hangoutRepository.findAll(pageable);
@@ -148,12 +151,19 @@ public class HangoutService {
         return hangoutRepository.findByHashtag(hashtag,pageable).map(HangoutDto::from);
     }
 
+
     public void deleteHangout(long hangoutId, String userId) {
+        hangoutWithRepository.deleteByHangout_Id(hangoutId);
+        chatRepository.deleteByHangout_Id(hangoutId);
         hangoutRepository.deleteByIdAndUserAccount_UserId(hangoutId,userId);
     }
 
     public boolean isJoined(Long hangoutId, String userId) {
         return hangoutWithRepository.findByHangoutAndUserId(hangoutId, userId) == null ||
                 hangoutWithRepository.findByHangoutAndUserId(hangoutId, userId).equals("") ? false : true;
+    }
+
+    public List<HangoutWith> getJoinersByHangoutId(Long hangoutId) {
+        return hangoutWithRepository.findByHangoutId(hangoutId);
     }
 }

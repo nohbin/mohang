@@ -13,9 +13,9 @@
     </style>
 </head>
 <body>
-<div class="container m-4" >
+<div class="container m-4 row" >
 
-    <div class="col-md-10 m-4" >
+    <div class="col-md-7 m-4" >
         <input type="hidden" id="hangoutId" th:value="${hangout.id}">
         <div class="m-2">
             <label for="title">제목</label>
@@ -56,6 +56,15 @@
         <a class="btn btn-outline-info hidden" id="chat-page" th:href="@{'/hangout/'+${hangout.id}+'/chatting'}" th:onclick="window.open(this.href, '_blank', 'width=850, height=1000'); return false;" ref="noreferrer noopener">채팅하기</a>
         <br><br>
         <div id="map" style="width:100%;height:350px;"></div>
+    </div>
+
+    <div class="col-md-3 m-4" >
+        <div class="m-2">
+            <label for="joiners">참여자</label>
+            <ul id="joiners" class="list-unstyled">
+                <li>아직 참여자가 없습니다.</li>
+            </ul>
+        </div>
     </div>
 
 </div>
@@ -155,7 +164,14 @@
         }
         var con = confirm(hangoutId + ' : 정말 삭제할 건가요? 8ㅅ8');
         if(con) {
-            window.location.href="/hangouts/" + hangoutId + "/form";
+            $.ajax({
+                method : 'DELETE',
+                url : '/hangouts/' + hangoutId + '/delete',
+                success: function(data){
+                    alert("삭제 성공.");
+                    location.replace("/");
+                },
+            });
         } else{
             alert('삭제를 취소하셨습니다.');
             return false;
@@ -168,17 +184,7 @@
         }
         var con = confirm(hangoutId + ' : 정말 수정할 건가요? ㅇㅅㅇ');
         if(con) {
-            var data = {hangoutId : hangoutId}
-            $.ajax({
-                type: 'GET',
-                url: hangoutId+'/form',
-                data: data,
-                success: function(response) {
-                }
-            }).done(function() {
-            }).fail(function(error) {
-                alert(JSON.stringify(error))
-            });
+            return true;
         } else{
             alert('수정을 취소하셨습니다.');
             return false;
