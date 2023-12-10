@@ -31,6 +31,10 @@
                 <textarea class="form-control" id="content" readonly th:text="${hangout.content}" rows="10"></textarea>
             </div>
             <div class="m-2">
+                <label for="hashtag">해쉬태그</label>
+                <input type="text" class="form-control" id="hashtag" name="hashtag" th:value="${hangout.hashtag()}">
+            </div>
+            <div class="m-2">
                 <label for="meetDate">모임일시</label>
                 <input type="text" class="form-control" id="meetDate" readonly th:value="${#temporals.format(hangout.meetDate,'yyyy-MM-dd HH:mm')}">
             </div>

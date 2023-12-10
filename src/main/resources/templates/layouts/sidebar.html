@@ -33,7 +33,10 @@
         </form>
     </div>
     <div class="container-fluid d-flex overflow-hidden justify-content-center ">
-        <a role="button" type="button" class="flex-item btn btn-warning m-1 w-100" sec:authorize="isAuthenticated()" th:href="@{/hangouts/form}" >모임만들기</a>
+        <a role="button" type="button" class="flex-item btn btn-warning m-1 w-100 d-block" sec:authorize="isAuthenticated()" th:href="@{/hangouts/form}" >모임만들기</a>
+    </div>
+    <div class="container-fluid d-flex overflow-hidden justify-content-center ">
+        <a role="button" type="button" class="flex-item btn btn-warning m-1 w-100 d-block" th:href="@{/}" >전체보기</a>
     </div>
 
     <!--
