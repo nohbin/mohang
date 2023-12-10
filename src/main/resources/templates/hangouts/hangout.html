@@ -8,60 +8,67 @@
           crossorigin="anonymous">
 </head>
 <body>
-<div class="container m-4 row" >
 
-    <div class="col-md-7 m-4" >
-        <input type="hidden" id="hangoutId" th:value="${hangout.id}">
-        <div class="m-2">
-            <label for="title">제목</label>
-            <input type="text" class="form-control" id="title" readonly th:value="${hangout.title}">
+<div id="page-wrapper">
+    <div th:insert="~{/layouts/sidebar.html}"></div>
+    <div class="page-content-wrapper row" >
+        <div class="col-md-8 m-4" >
+            <input type="hidden" id="hangoutId" th:value="${hangout.id}">
+            <div class="m-2">
+                <label for="title">제목</label>
+                <input type="text" class="form-control" id="title" readonly th:value="${hangout.title}">
+            </div>
+            <div class="m-2">
+                <label for="createdBy">작성자</label>
+                <input type="text" class="form-control" id="createdBy" readonly th:value="${hangout.nickname()}">
+            </div>
+            <div class="m-2">
+                <label for="createdAt">작성일</label>
+                <input type="text" class="form-control" id="createdAt" readonly th:value="${#temporals.format(hangout.createdAt,'yyyy-MM-dd HH:mm')}">
+            </div>
+            <div class="m-2">
+                <label for="content">내용</label>
+                <textarea class="form-control" id="content" readonly th:text="${hangout.content}" rows="10"></textarea>
+            </div>
+            <div class="m-2">
+                <label for="meetDate">모임일시</label>
+                <input type="text" class="form-control" id="meetDate" readonly th:value="${#temporals.format(hangout.meetDate,'yyyy-MM-dd HH:mm')}">
+            </div>
+            <div class="m-2">
+                <label for="place">장소명</label>
+                <input type="text" class="form-control" id="place" name="place" readonly th:value="${hangout.place}">
+            </div>
+            <div class="m-2">
+                <label for="address">주소</label>
+                <input type="text" class="form-control" id="address" name="address" readonly th:value="${hangout.address}">
+            </div>
+            <br>
+            <a class="btn btn-outline-dark" th:href="@{/hangouts}">목록보기</a>
+            <a class="btn btn-outline-dark"
+               th:if="${hangout.createdBy() == userId}"
+               th:href="'/hangouts/'+${hangoutId} + '/form'" onclick="return updateCheck()">수정하기</a>
+            <button type="button" class="btn btn-outline-dark"
+                    th:if="${hangout.createdBy() == userId}" id="delete-btn" onclick="return deleteCheck()">삭제하기</button>
+            <button th:if="${!isJoined}" type="button" class="btn btn-outline-dark" id="parti" onclick="parti();">참여하기</button>
+            <a  th:if="${isJoined}" class="btn btn-outline-info" id="chat-page" th:href="@{'/hangout/'+${hangout.id}+'/chatting'}" th:onclick="window.open(this.href, '_blank', 'width=850, height=1000'); return false;" ref="noreferrer noopener">채팅하기</a>
+            <br><br>
+            <div id="map" style="width:100%;height:350px;"></div>
         </div>
-        <div class="m-2">
-            <label for="createdBy">작성자</label>
-            <input type="text" class="form-control" id="createdBy" readonly th:value="${hangout.nickname()}">
+
+        <div class="col-md-2 m-4" >
+            <div class="m-2">
+                <label for="joiners">참여자</label>
+                <ul id="joiners" class="joiners" th:if="${#lists.size(joiners)>0}" th:each="user: ${joiners}">
+                    <li><a th:href="@{'/users/'+${user[0]}}" th:text="${user[1]}"></a></li>
+                </ul>
+                <ul id="" class="joiners" th:if="${joiners.isEmpty()}">
+                    <li><a th:href="@{'/users/'+${hangout.userId()}}" th:text="${hangout.nickname()}"></a></li>
+                </ul>
+
+            </div>
         </div>
-        <div class="m-2">
-            <label for="createdAt">작성일</label>
-            <input type="text" class="form-control" id="createdAt" readonly th:value="${#temporals.format(hangout.createdAt,'yyyy-MM-dd HH:mm')}">
-        </div>
-        <div class="m-2">
-            <label for="content">내용</label>
-            <textarea class="form-control" id="content" readonly th:text="${hangout.content}" rows="10"></textarea>
-        </div>
-        <div class="m-2">
-            <label for="meetDate">모임일시</label>
-            <input type="text" class="form-control" id="meetDate" readonly th:value="${#temporals.format(hangout.meetDate,'yyyy-MM-dd HH:mm')}">
-        </div>
-        <div class="m-2">
-            <label for="place">장소명</label>
-            <input type="text" class="form-control" id="place" name="place" readonly th:value="${hangout.place}">
-        </div>
-        <div class="m-2">
-            <label for="address">주소</label>
-            <input type="text" class="form-control" id="address" name="address" readonly th:value="${hangout.address}">
-        </div>
-        <br>
-        <a class="btn btn-outline-dark" th:href="@{/hangouts}">목록보기</a>
-        <a class="btn btn-outline-dark"
-           th:if="${hangout.createdBy() == userId}"
-           th:href="'/hangouts/'+${hangoutId} + '/form'" onclick="return updateCheck()">수정하기</a>
-        <button type="button" class="btn btn-outline-dark"
-                th:if="${hangout.createdBy() == userId}" id="delete-btn" onclick="return deleteCheck()">삭제하기</button>
-        <button th:if="${!isJoined}" type="button" class="btn btn-outline-dark" id="parti" onclick="parti();">참여하기</button>
-        <a  th:if="${isJoined}" class="btn btn-outline-info" id="chat-page" th:href="@{'/hangout/'+${hangout.id}+'/chatting'}" th:onclick="window.open(this.href, '_blank', 'width=850, height=1000'); return false;" ref="noreferrer noopener">채팅하기</a>
-        <br><br>
-        <div id="map" style="width:100%;height:350px;"></div>
+
     </div>
-
-    <div class="col-md-3 m-4" >
-        <div class="m-2">
-            <label for="joiners">참여자</label>
-            <ul id="joiners" class="joiners"  th:each="user: ${joiners}">
-                <li><a th:href="@{'/users/'+${user[0]}}" th:text="${user[1]}"></a></li>
-            </ul>
-        </div>
-    </div>
-
 </div>
 </body>
 <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/jquery/latest/jquery.min.js}"></script>

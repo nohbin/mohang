@@ -74,7 +74,8 @@ public class HangoutController {
 
     @GetMapping("/{hangoutId}")
     public String hangout(@PathVariable Long hangoutId, Model model,
-                            @AuthenticationPrincipal CustomPrincipal customPrincipal) {
+                          @RequestParam(required = false) SearchType searchType,
+                          @AuthenticationPrincipal CustomPrincipal customPrincipal) {
         HangoutDto hangout = hangoutService.getHangout(hangoutId);
         model.addAttribute("hangout", hangout);
         List<String[]> joiners = hangoutService.getJoinersByHangoutId(hangoutId);
@@ -85,25 +86,34 @@ public class HangoutController {
         }
         boolean isJoined = hangoutService.isJoined(hangout.id(), userId);
         model.addAttribute("isJoined", isJoined);
+        Map<String,List<String>> regionListMap = hangoutService.getRegionListMap();
+        model.addAttribute("regionListMap", regionListMap);
+        model.addAttribute("searchTypes",SearchType.values());
         return "/hangouts/hangout";
     }
 
-    @GetMapping("/search")
-    public String search(Model model,
-                         @RequestParam("cate") String cate,
-                         @RequestParam("keyword") String keyword,
-                         @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-                         @RequestParam(value="page", defaultValue="0") int page) {
-        Page<Hangout> paging = hangoutService.search(cate, keyword, pageable);
-        model.addAttribute("paging", paging);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("cate", cate);
-        return "/hangout/hangouts";
-    }
+//    @GetMapping("/search")
+//    public String search(Model model,
+//                         @RequestParam("cate") String cate,
+//                         @RequestParam("keyword") String keyword,
+//                         @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+//                         @RequestParam(value="page", defaultValue="0") int page) {
+//        Page<Hangout> paging = hangoutService.search(cate, keyword, pageable);
+//        model.addAttribute("paging", paging);
+//        model.addAttribute("keyword", keyword);
+//        model.addAttribute("cate", cate);
+//        return "/hangout/hangouts";
+//    }
 
     @GetMapping("/form")
-    public String writeForm(ModelMap map) {
+    public String writeForm(ModelMap map,
+                            @RequestParam(required = false) SearchType searchType
+                            ) {
         map.addAttribute("formStatus", FormStatus.CREATE);
+        Map<String,List<String>> regionListMap = hangoutService.getRegionListMap();
+        map.addAttribute("regionListMap", regionListMap);
+        map.addAttribute("searchTypes",SearchType.values());
+
         return "hangouts/write";
     }
     @PostMapping("/form")
@@ -116,6 +126,7 @@ public class HangoutController {
     }
     @GetMapping("/{hangoutId}/form")
     public String updateHangoutForm(
+            @RequestParam(required = false) SearchType searchType,
             @PathVariable Long hangoutId,
             ModelMap map
     ){
@@ -123,6 +134,10 @@ public class HangoutController {
 
         map.addAttribute("hangout",hangout);
         map.addAttribute("formStatus", FormStatus.UPDATE);
+        Map<String,List<String>> regionListMap = hangoutService.getRegionListMap();
+        map.addAttribute("regionListMap", regionListMap);
+        map.addAttribute("searchTypes",SearchType.values());
+
 
         return "hangouts/write";
     }
@@ -156,14 +171,16 @@ public class HangoutController {
 //        model.addAttribute("hangout", written);
 //        return "/hangouts/hangout";
 //    }
-    @GetMapping("/hashtag/{hashtag}")
-    public String getByHashtag(Model model, @PathVariable("hashtag") String hashtag,
-        @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Hangout> paging = hangoutService.getByHashtag(hashtag, pageable);
-        model.addAttribute("paging", paging);
-        model.addAttribute("hashtag", hashtag);
-        return "/hangouts/hangouts";
-    }
+//    @GetMapping("/hashtag/{hashtag}")
+//    public String getByHashtag(Model model, @PathVariable("hashtag") String hashtag,
+//        @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+//        Page<Hangout> paging = hangoutService.getByHashtag(hashtag, pageable);
+//        model.addAttribute("paging", paging);
+//        model.addAttribute("hashtag", hashtag);
+//        Map<String,List<String>> regionListMap = hangoutService.getRegionListMap();
+//        model.addAttribute("regionListMap", regionListMap);
+//        return "/hangouts/hangouts";
+//    }
 
     @GetMapping("/kakao")
     public String loginexample(){

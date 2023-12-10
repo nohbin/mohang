@@ -1,118 +1,125 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <style>/*카카오지도 */
+    .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+    .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
+    .map_wrap {position:relative;width:100%;height:500px;}
+    #menu_wrap {position:absolute;top:0;left:0;bottom:0;width:350px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+    .bg_white {background:#fff;}
+    #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+    #menu_wrap .option{text-align: center;}
+    #menu_wrap .option p {margin:10px 0;}
+    #menu_wrap .option button {margin-left:5px;}
+    #placesList li {list-style: none;}
+    #placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+    #placesList .item span {display: block;margin-top:4px;}
+    #placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+    #placesList .item .info{padding:10px 0 10px 55px;}
+    #placesList .info .gray {color:#8a8a8a;}
+    #placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+    #placesList .info .tel {color:#009900;}
+    #placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+    #placesList .item .marker_1 {background-position: 0 -10px;}
+    #placesList .item .marker_2 {background-position: 0 -56px;}
+    #placesList .item .marker_3 {background-position: 0 -102px}
+    #placesList .item .marker_4 {background-position: 0 -148px;}
+    #placesList .item .marker_5 {background-position: 0 -194px;}
+    #placesList .item .marker_6 {background-position: 0 -240px;}
+    #placesList .item .marker_7 {background-position: 0 -286px;}
+    #placesList .item .marker_8 {background-position: 0 -332px;}
+    #placesList .item .marker_9 {background-position: 0 -378px;}
+    #placesList .item .marker_10 {background-position: 0 -423px;}
+    #placesList .item .marker_11 {background-position: 0 -470px;}
+    #placesList .item .marker_12 {background-position: 0 -516px;}
+    #placesList .item .marker_13 {background-position: 0 -562px;}
+    #placesList .item .marker_14 {background-position: 0 -608px;}
+    #placesList .item .marker_15 {background-position: 0 -654px;}
+    #pagination {margin:10px auto;text-align: center;}
+    #pagination a {display:inline-block;margin-right:10px;}
+    #pagination .on {font-weight: bold; cursor: default;color:#777;}
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Hangout Detail</title>
     <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css}"
           rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
           crossorigin="anonymous">
     <link th:href="@{/css/jquery.datetimepicker.min.css}" rel="stylesheet">
-    <style>/*카카오지도 */
-        .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-        .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-        .map_wrap {position:relative;width:100%;height:500px;}
-        #menu_wrap {position:absolute;top:0;left:0;bottom:0;width:350px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
-        .bg_white {background:#fff;}
-        #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
-        #menu_wrap .option{text-align: center;}
-        #menu_wrap .option p {margin:10px 0;}
-        #menu_wrap .option button {margin-left:5px;}
-        #placesList li {list-style: none;}
-        #placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
-        #placesList .item span {display: block;margin-top:4px;}
-        #placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-        #placesList .item .info{padding:10px 0 10px 55px;}
-        #placesList .info .gray {color:#8a8a8a;}
-        #placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
-        #placesList .info .tel {color:#009900;}
-        #placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
-        #placesList .item .marker_1 {background-position: 0 -10px;}
-        #placesList .item .marker_2 {background-position: 0 -56px;}
-        #placesList .item .marker_3 {background-position: 0 -102px}
-        #placesList .item .marker_4 {background-position: 0 -148px;}
-        #placesList .item .marker_5 {background-position: 0 -194px;}
-        #placesList .item .marker_6 {background-position: 0 -240px;}
-        #placesList .item .marker_7 {background-position: 0 -286px;}
-        #placesList .item .marker_8 {background-position: 0 -332px;}
-        #placesList .item .marker_9 {background-position: 0 -378px;}
-        #placesList .item .marker_10 {background-position: 0 -423px;}
-        #placesList .item .marker_11 {background-position: 0 -470px;}
-        #placesList .item .marker_12 {background-position: 0 -516px;}
-        #placesList .item .marker_13 {background-position: 0 -562px;}
-        #placesList .item .marker_14 {background-position: 0 -608px;}
-        #placesList .item .marker_15 {background-position: 0 -654px;}
-        #pagination {margin:10px auto;text-align: center;}
-        #pagination a {display:inline-block;margin-right:10px;}
-        #pagination .on {font-weight: bold; cursor: default;color:#777;}
-    </style>
+
 </head>
 <body>
-<div class="container m-4" >
-    <header id="article-form-header" class="py-5 text-center">
-        <h1 th:text="${formStatus} ? '게시글 ' + ${formStatus.description} : _">게시글 작성</h1>
-    </header>
-    <div class="col-md-10 m-4">
-        <form th:action="${formStatus?.update} ? '/hangouts/' + ${hangout.id} + '/form' : '/hangouts/form'" th:method="post">
-            <div class="m-2">
-                <label for="title">제목</label>
-                <input type="text" class="form-control" id="title" name="title" th:value="${hangout?.title} ?: _">
-            </div>
-<!--            <div class="m-2">-->
-<!--                <label for="createdBy">작성자 ****회원아이디 넣어야함**** </label>-->
-<!--                <input type="text" class="form-control" id="createdBy" name="createdBy">-->
-<!--            </div>-->
-<!--
-            <div class="m-2">
-                <label for="createdAt">작성일</label>
-                <input type="text" class="form-control" id="createdAt">
-            </div>
--->
-            <div class="m-2">
-                <label for="content">내용</label>
-                <textarea class="form-control" rows="10" id="content" name="content" th:text="${hangout?.content} ?: _"></textarea>
-            </div><div class="m-2">
-                <label for="hashtag">해쉬태그</label>
-                <textarea class="form-control" rows="10" id="hashtag" name="hashtag" th:text="${hangout?.hashtag} ?: _"></textarea>
-            </div>
-            <div class="m-2" id="datepic">
-                <label for="meetDate">모임일시</label>
-                <input type="text" class="form-control" id="meetDate" name="meetDate" readonly th:value=" ${hangout}? ${#temporals.format(hangout.meetDate,'yyyy-MM-dd HH:mm')}: _">
-            </div>
-            <div class="m-2">
-                <label for="place">장소명</label>
-                <input type="text" class="form-control" id="place" name="place" th:value="${hangout?.place} ?: _">
-            </div>
-            <div class="m-2">
-                <label for="address">주소</label>
-                <input type="text" class="form-control" id="address" name="address" th:value="${hangout?.address} ?: _">
-            </div>
-            <br>
-            <a class="btn btn-outline-dark" th:href="@{/templates/hangouts}">목록보기</a>
-            <button type="reset"  class="btn btn-warning">다시작성</button>
-            <button type="submit" class="btn btn-info" th:text="${formStatus?.description} ?: _" th:onclick="return submitCheck()">작성하기</button>
+<div id="page-wrapper">
 
-        </form>
+    <div th:insert="~{/layouts/sidebar.html}"></div>
 
-        <div class="map_wrap">
-            <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-
-            <div id="menu_wrap" class="bg_white">
-                <div class="option">
-                    <div>
-                        <form onsubmit="searchPlaces(); return false;">
-                            키워드 : <input type="text" value="중앙역 삼겹살" id="keyword" size="15">
-                            <button type="submit" id="placeSearch" >검색하기</button>
-                        </form>
-                    </div>
+    <div class="page-content-wrapper row" >
+        <header id="article-form-header" class="py-2 text-center">
+            <h1 th:text="${formStatus} ? '게시글 ' + ${formStatus.description} : _">게시글 작성</h1>
+        </header>
+        <div class="col-md-10 m-4">
+            <form th:action="${formStatus?.update} ? '/hangouts/' + ${hangout.id} + '/form' : '/hangouts/form'" th:method="post">
+                <div class="m-2">
+                    <label for="title">제목</label>
+                    <input type="text" class="form-control" id="title" name="title" th:value="${hangout?.title} ?: _">
                 </div>
-                <hr>
-                <ul id="placesList"></ul>
-                <div id="pagination"></div>
-            </div>
-        </div>
-    </div>
+    <!--            <div class="m-2">-->
+    <!--                <label for="createdBy">작성자 ****회원아이디 넣어야함**** </label>-->
+    <!--                <input type="text" class="form-control" id="createdBy" name="createdBy">-->
+    <!--            </div>-->
+    <!--
+                <div class="m-2">
+                    <label for="createdAt">작성일</label>
+                    <input type="text" class="form-control" id="createdAt">
+                </div>
+    -->
+                <div class="m-2">
+                    <label for="content">내용</label>
+                    <textarea class="form-control" rows="7" id="content" name="content" th:text="${hangout?.content} ?: _"></textarea>
+                </div>
+                <div class="m-2">
+                    <label for="hashtag">해쉬태그</label>
+                    <input type="text" class="form-control" id="hashtag" name="hashtag" th:value="${hangout?.hashtag} ?: _">
+                </div>
+                <div class="m-2" id="datepic">
+                    <label for="meetDate">모임일시</label>
+                    <input type="text" class="form-control" id="meetDate" name="meetDate" readonly th:value=" ${hangout}? ${#temporals.format(hangout.meetDate,'yyyy-MM-dd HH:mm')}: _">
+                </div>
+                <div class="m-2">
+                    <label for="place">장소명</label>
+                    <input type="text" class="form-control" id="place" name="place" th:value="${hangout?.place} ?: _">
+                </div>
+                <div class="m-2">
+                    <label for="address">주소</label>
+                    <input type="text" class="form-control" id="address" name="address" th:value="${hangout?.address} ?: _" readonly placeholder="지도에서 검색 후 마우스로 선택해주세요.">
+                </div>
 
+                <br>
+                <a class="btn btn-outline-dark" th:href="@{/templates/hangouts}">목록보기</a>
+                <button type="reset"  class="btn btn-warning">다시작성</button>
+                <button type="submit" class="btn btn-info" th:text="${formStatus?.description} ?: _" th:onclick="return submitCheck()">작성하기</button>
+            </form>
+            <div class="map_wrap m-2">
+                <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
+                <div id="menu_wrap" class="bg_white">
+                    <div class="option">
+                        <div>
+                            <form onsubmit="searchPlaces(); return false;">
+                                키워드 : <input type="text" value="중앙역 삼겹살" id="keyword" size="15">
+                                <button type="submit" id="placeSearch" >검색하기</button>
+                            </form>
+                        </div>
+                    </div>
+                    <hr>
+                    <ul id="placesList"></ul>
+                    <div id="pagination"></div>
+                </div>
+            </div><!-- map -->
+
+        </div><!-- form wrapper -->
+
+    </div><!-- page content wrapper -->
+</div><!-- page wrapper-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8d98f73a557881a5b34939183b8131b8&libraries=services"></script>
     <script>
         // 마커를 담을 배열입니다
@@ -332,6 +339,7 @@
             }
         }
     </script>
+</div>
 </div>
 </body>
 <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/jquery/latest/jquery.min.js}"></script>
