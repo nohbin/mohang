@@ -2,12 +2,15 @@
 <link href="/css/side-bar.css" rel="stylesheet">
 
 <div id="sidebar-wrapper">
-    <div class="container-fluid my-3">
-        <div class="btn-group m-1">
-            <a role="button" id="kakao-login" class="me-2" sec:authorize="!isAuthenticated()" th:href="@{/oauth2/authorization/kakao}">
-                <img alt="Kakao Login" src="/images/kakao_login_medium.png" >
+    <div class="container-fluid my-3" style="text-align:center; display: inline-block; ;">
+        <div class="btn-group m-1" style="text-align:center; display: inline-block;">
+            <a role="button" id="kakao-login" style="text-align:center; display: inline-block;" class="me-2 text-center" sec:authorize="!isAuthenticated()" th:href="@{/oauth2/authorization/kakao}">
+                <img alt="Kakao Login" class="" src="/images/kakao_login_medium_narrow.png" >
             </a>
-            <a role="button" id="kakao-logout" class="me-2" sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
+            <a role="button" id="kakao-logout" class="me-2" sec:authorize="isAuthenticated()" th:href="@{/logout}">
+                <img alt="Kakao logout" class="" src="/images/kakao_logout_medium_narrow.png" style="width: 183px; height: 45px;">
+
+            </a>
 
         </div>
     </div>
