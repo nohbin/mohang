@@ -15,6 +15,9 @@
     <!-- 본문 -->
     <div id="page-content-wrapper">
         <div class="container-fluid">
+            <div sec:authorize="isAuthenticated()">
+                <h2 th:text="${#authentication.principal.nickname + ' 님 환영합니다'}"></h2>
+            </div>
             <h1>Mohang?</h1>
             <p>모여서 Hang Out!</p>
             <table class="table">

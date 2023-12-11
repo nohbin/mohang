@@ -25,6 +25,5 @@ public class FormDataEncoder {
                 .encode()
                 .build()
                 .getQuery();
-
     }
 }

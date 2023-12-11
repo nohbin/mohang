@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class HangoutWith {
     @Id
     @ManyToOne
-    @JoinColumn(name = "hangout_id")
     private Hangout hangout;
 
     @Id

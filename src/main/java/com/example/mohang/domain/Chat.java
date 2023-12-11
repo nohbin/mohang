@@ -36,7 +36,7 @@ public class Chat {
 
     @Setter
     @Getter
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Hangout hangout;
 
     @CreatedDate
