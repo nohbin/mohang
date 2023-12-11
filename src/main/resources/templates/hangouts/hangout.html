@@ -122,7 +122,6 @@
     });
 </script>
 <script>
-    var hang = $('#')
     var hangoutId = $('#hangoutId').val()
     var createdBy = '[[${createdBy}]]';
     var userId = '[[${userId}]]';
@@ -147,9 +146,9 @@
                 };
                 $.ajax({
                     type: 'POST',
-                        url: '/hangwith/participate',
-                        contentType: 'application/json; charset=utf-8',
-                        data: JSON.stringify(data)
+                    url: '/hangwith/participate',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(data)
                 }).done(function() {
                     var con = confirm('채팅방에도 들러보세요!');
                     if(con) {
