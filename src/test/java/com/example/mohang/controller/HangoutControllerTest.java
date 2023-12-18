@@ -114,7 +114,7 @@ public class HangoutControllerTest {
     @DisplayName("view/post 새 행아웃 등록 - 정상 호출")
     @Test
     void givenNewHangoutInfo_whenRequesting_thenSavesNewHangout() throws Exception {
-        HangoutRequest hangoutRequest = HangoutRequest.of("title","content","hashtag",LocalDateTime.now(),"place","address");
+        HangoutRequest hangoutRequest = HangoutRequest.of("title","content","hashtag","2023-01-01 00:00","place","address");
         willDoNothing().given(hangoutService).saveHangout(any(HangoutDto.class));
 
         mvc.perform(
@@ -152,7 +152,7 @@ public class HangoutControllerTest {
     @Test
     void givenUpdateHangoutInfo_whenRequesting_thenUpdateHangout() throws Exception {
         long hangoutId = 1L;
-        HangoutRequest hangoutRequest = HangoutRequest.of("title","content","#new",LocalDateTime.now(),"place","address");
+        HangoutRequest hangoutRequest = HangoutRequest.of("title","content","#new","2023-01-01 00:00","place","address");
         willDoNothing().given(hangoutService).updateHangout(eq(hangoutId),any(HangoutDto.class));
 
         mvc.perform(

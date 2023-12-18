@@ -15,16 +15,16 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: mohang
+    password: ${DB_PW}
     url: jdbc:mysql://localhost:3306/mohang?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
-    username: mohang
+    username: ${DB_ID}
   h2:
     console:
       enabled: true
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL57Dialect
