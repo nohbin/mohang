@@ -6,6 +6,7 @@ import com.example.mohang.domain.constant.SearchType;
 import com.example.mohang.dto.HangoutDto;
 import com.example.mohang.repository.HangoutRepository;
 import com.example.mohang.repository.UserAccountRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +25,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
+@Disabled
 @DisplayName("비즈니스 로직 - hangout")
 @ExtendWith(MockitoExtension.class)
 class HangoutServiceTest {

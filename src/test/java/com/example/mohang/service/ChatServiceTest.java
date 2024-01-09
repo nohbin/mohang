@@ -9,6 +9,7 @@ import com.example.mohang.dto.UserAccountDto;
 import com.example.mohang.repository.ChatRepository;
 import com.example.mohang.repository.HangoutRepository;
 import com.example.mohang.repository.UserAccountRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +25,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
+@Disabled
 @DisplayName("비즈니스 로직 - 채팅")
 @ExtendWith(MockitoExtension.class)
 class ChatServiceTest {

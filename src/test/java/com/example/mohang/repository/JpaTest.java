@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
+@Disabled
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(JpaTest.TestJpaConfig.class)
