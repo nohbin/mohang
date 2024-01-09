@@ -15,9 +15,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: ${DB_PW}
+    password: mohang
     url: jdbc:mysql://localhost:3306/mohang?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
-    username: ${DB_ID}
+    username: mohang
   h2:
     console:
       enabled: true
