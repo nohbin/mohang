@@ -68,7 +68,7 @@ tasks.named('test') {
 }
 
 // Querydsl 설정부
-//d
+
 def querydslSrcDir = 'src/main/generated'
 clean {
     delete file(querydslSrcDir)
