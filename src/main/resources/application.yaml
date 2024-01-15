@@ -1,65 +1,7 @@
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
-server:
-  servlet:
-    encoding:
-      force: true
-
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    password: ${SPRING_DATASOURCE_PASSWORD}
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-  h2:
-    console:
-      enabled: true
-  jpa:
-    defer-datasource-initialization: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL57Dialect
-        dialect.storage_engine: innodb
-        format_sql: true
-        show_sql: true
-    database: mysql
-  session:
-    store-type: jdbc
-  sql:
-    init:
-      mode: always
-  data.rest:
-    base-path: /hangapi
-    detection-strategy: annotated
-  jackson:
-    serialization:
-      fail-on-empty-beans: false
+  profiles:
+    default: ${profile}
 
-  security:
-    oauth2:
-      client:
-        registration:
-          kakao:
-            client-id: ${KAKAO_CLIENT_ID}
-            client-secret: ${KAKAO_CLIENT_SECRET}
-            authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
-            client-authentication-method: client_secret_post
-        provider:
-          kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-name-attribute: id
-  thymeleaf3:
-    decoupled-logic: true
+
+
 
