@@ -13,10 +13,6 @@ server:
       force: true
 
 spring:
-  config:
-    activate:
-      on-profile: prod
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: ${SPRING_DATASOURCE_PASSWORD}
