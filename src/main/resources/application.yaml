@@ -63,3 +63,8 @@ spring:
   thymeleaf3:
     decoupled-logic: true
 
+naver:
+  rest:
+    api:
+      access: ${SUB_ACCOUNT_ACCESS_KEY}
+      secret: ${API_GATEWAY_SIGNATURE}
