@@ -48,8 +48,8 @@
 
 </head>
 <body>
-<input type="text" id="latitude" th:value='${geoLocationResponseDto.getGeoLocation().get("lat")}'>
-<input type="text" id="longitude" th:value='${geoLocationResponseDto.getGeoLocation().get("long")}'>
+<input type="hidden" id="latitude" th:value='${geoLocationResponseDto.getGeoLocation().get("lat")}'>
+<input type="hidden" id="longitude" th:value='${geoLocationResponseDto.getGeoLocation().get("long")}'>
 <div id="page-wrapper">
 
     <div th:insert="~{/layouts/sidebar.html}"></div>
@@ -107,6 +107,12 @@
                     <div class="option">
                         <div>
                             <form onsubmit="searchPlaces(); return false;">
+                                <input type="radio" name="radius" id="me" th:value="myposition">
+                                <label for="me">내위치 주변</label>
+                                <input type="radio" name="radius" id="here" th:value="herearound">
+                                <label for="here">현지도 주변</label>
+                                <input type="radio" name="radius" id="national" th:value="national" checked>
+                                <label for="national">전국</label><br>
                                 키워드 : <input type="text" value="" id="keyword" size="15">
                                 <button type="submit" id="placeSearch" >검색하기</button>
                             </form>
@@ -143,12 +149,12 @@
         var longitude = latlng.getLng();
 
         // 지도 이동 시 변경된 중심좌표 얻어오기 //TODO TODOTODOTODOTODOTODOTODOTODOTODO
-        kakao.maps.event.addListener(map, 'dragend', function() {
-
-            latlng.getLat();
-            latlng.getLng();
-
-        });
+        // kakao.maps.event.addListener(map, 'dragend', function() {
+        //
+        //     latlng.getLat();
+        //     latlng.getLng();
+        //
+        // });
 
         // 장소 검색 객체를 생성합니다
         var ps = new kakao.maps.services.Places();
@@ -173,13 +179,22 @@
         // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
         function placesSearchCB(data, status, pagination) {
             if (status === kakao.maps.services.Status.OK) {
+                if(document.getElementById('here').checked == true) {
+                    latlng = map.getCenter();
+                    latitude = latlng.getLat();
+                    longitude = latlng.getLng();
+                }
+                if(document.getElementById('me').checked == true) {
+                    latitude = document.getElementById('latitude').value;
+                    longitude = document.getElementById('longitude').value;
+                }
 
                 let distance;
                 var resultData = [];
                 for(var i=0; i<data.length; i++) {
                     var twoDot = {
-                        lat1: latlng.getLat(),
-                        lng1: latlng.getLng(),
+                        lat1: latitude,
+                        lng1: longitude,
                         lat2: data[i].y,
                         lng2: data[i].x
                     }
@@ -193,15 +208,20 @@
                         }
                     });
                     console.log("distance?" + distance);
-                    if(distance <= 10) {
+                    if(document.getElementById('national').checked == true) {
                         resultData.push(data[i]);
+                    } else {
+                        if(distance <= 10) {
+                            resultData.push(data[i]);
+                        }
                     }
                 }
 
                 // displayPlaces(data);
                 if(resultData.length == 0) {
                     alert('주변의 검색 결과가 없습니다.\n' +
-                        '추천 검색어 : 수원역 삼겹살');
+                        '검색어 예시: 수원역 삼겹살\n' +
+                        '검색어 예시: 쌍문동 맛집');
                 } else {
                     // 정상적으로 검색이 완료됐으면
                     // 검색 목록과 마커를 표출합니다
