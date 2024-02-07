@@ -48,6 +48,8 @@
 
 </head>
 <body>
+<input type="hidden" id="latitude" th:value='${geoLocationResponseDto.getGeoLocation().get("lat")}'>
+<input type="hidden" id="longitude" th:value='${geoLocationResponseDto.getGeoLocation().get("long")}'>
 <div id="page-wrapper">
 
     <div th:insert="~{/layouts/sidebar.html}"></div>
@@ -105,7 +107,13 @@
                     <div class="option">
                         <div>
                             <form onsubmit="searchPlaces(); return false;">
-                                키워드 : <input type="text" value="중앙역 삼겹살" id="keyword" size="15">
+                                <input type="radio" name="radius" id="me" th:value="myposition">
+                                <label for="me">내위치 주변</label>
+                                <input type="radio" name="radius" id="here" th:value="herearound">
+                                <label for="here">현지도 주변</label>
+                                <input type="radio" name="radius" id="national" th:value="national" checked>
+                                <label for="national">전국</label><br>
+                                키워드 : <input type="text" value="" id="keyword" size="15">
                                 <button type="submit" id="placeSearch" >검색하기</button>
                             </form>
                         </div>
@@ -122,26 +130,37 @@
 </div><!-- page wrapper-->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8d98f73a557881a5b34939183b8131b8&libraries=services"></script>
     <script>
+
         // 마커를 담을 배열입니다
         var markers = [];
 
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
-                center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+                center: new kakao.maps.LatLng(document.getElementById('latitude').value, document.getElementById('longitude').value), // 지도의 중심좌표
                 level: 3 // 지도의 확대 레벨
             };
 
         // 지도를 생성합니다
         var map = new kakao.maps.Map(mapContainer, mapOption);
 
+        // 지도의 중심좌표 얻어오기
+        var latlng = map.getCenter();
+        var latitude = latlng.getLat();
+        var longitude = latlng.getLng();
+
+        // 지도 이동 시 변경된 중심좌표 얻어오기 //TODO TODOTODOTODOTODOTODOTODOTODOTODO
+        // kakao.maps.event.addListener(map, 'dragend', function() {
+        //
+        //     latlng.getLat();
+        //     latlng.getLng();
+        //
+        // });
+
         // 장소 검색 객체를 생성합니다
         var ps = new kakao.maps.services.Places();
 
         // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
         var infowindow = new kakao.maps.InfoWindow({zIndex:1});
-
-        // 키워드로 장소를 검색합니다
-        searchPlaces();
 
         // 키워드 검색을 요청하는 함수입니다
         function searchPlaces() {
@@ -154,19 +173,63 @@
             }
 
             // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-            ps.keywordSearch( keyword, placesSearchCB);
+            ps.keywordSearch(keyword, placesSearchCB);
         }
 
         // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
         function placesSearchCB(data, status, pagination) {
             if (status === kakao.maps.services.Status.OK) {
+                if(document.getElementById('here').checked == true) {
+                    latlng = map.getCenter();
+                    latitude = latlng.getLat();
+                    longitude = latlng.getLng();
+                }
+                if(document.getElementById('me').checked == true) {
+                    latitude = document.getElementById('latitude').value;
+                    longitude = document.getElementById('longitude').value;
+                }
 
-                // 정상적으로 검색이 완료됐으면
-                // 검색 목록과 마커를 표출합니다
-                displayPlaces(data);
+                let distance;
+                var resultData = [];
+                for(var i=0; i<data.length; i++) {
+                    var twoDot = {
+                        lat1: latitude,
+                        lng1: longitude,
+                        lat2: data[i].y,
+                        lng2: data[i].x
+                    }
+                    $.ajax({
+                        type: "GET",
+                        url: "/geolocation/distance",
+                        data: twoDot,
+                        async:false,
+                        success: function (response) {
+                            distance = response;
+                        }
+                    });
+                    console.log("distance?" + distance);
+                    if(document.getElementById('national').checked == true) {
+                        resultData.push(data[i]);
+                    } else {
+                        if(distance <= 10) {
+                            resultData.push(data[i]);
+                        }
+                    }
+                }
 
-                // 페이지 번호를 표출합니다
-                displayPagination(pagination);
+                // displayPlaces(data);
+                if(resultData.length == 0) {
+                    alert('주변의 검색 결과가 없습니다.\n' +
+                        '검색어 예시: 수원역 삼겹살\n' +
+                        '검색어 예시: 쌍문동 맛집');
+                } else {
+                    // 정상적으로 검색이 완료됐으면
+                    // 검색 목록과 마커를 표출합니다
+                    displayPlaces(resultData);
+                    // 페이지 번호를 표출합니다
+                    displayPagination(pagination);
+                }
+
 
             } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
 
@@ -202,6 +265,7 @@
                 var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
                     marker = addMarker(placePosition, i),
                     itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+
 
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다

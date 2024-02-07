@@ -61,6 +61,9 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    // ip-location (maxmind)
+    implementation 'com.maxmind.geoip2:geoip2:4.1.0'
 }
 
 tasks.named('test') {
