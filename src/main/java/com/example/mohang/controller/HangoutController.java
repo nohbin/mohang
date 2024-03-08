@@ -96,7 +96,7 @@ public class HangoutController {
         Map<String,List<String>> regionListMap = hangoutService.getRegionListMap();
         model.addAttribute("regionListMap", regionListMap);
         model.addAttribute("searchTypes",SearchType.values());
-        return "/hangouts/hangout";
+        return "hangouts/hangout";
     }
 
 //    @GetMapping("/search")
@@ -223,7 +223,7 @@ public class HangoutController {
 
     @GetMapping("/kakao")
     public String loginexample(){
-        return "/hangouts/kakaologin";
+        return "hangouts/kakaologin";
     }
 
 }
